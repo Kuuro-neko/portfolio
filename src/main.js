@@ -69,3 +69,60 @@ arrowRight.textContent = '>';
 
 // Initialize
 showSection(0); // This will hide the left arrow if currentSection is 0
+
+// Tag filtering logic
+const tagButtons = Array.from(document.querySelectorAll('#project-tags .tag'));
+const projectCards = Array.from(document.querySelectorAll('.project-card'));
+
+function updateProjectVisibility(selectedTag) {
+  if (selectedTag === 'All') {
+    projectCards.forEach(card => card.style.display = '');
+  } else {
+    projectCards.forEach(card => {
+      const tags = card.getAttribute('data-tags').split(',');
+      card.style.display = tags.includes(selectedTag) ? '' : 'none';
+    });
+  }
+}
+
+tagButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // If "All" is clicked, deselect all others
+    if (btn.dataset.tag === 'All') {
+      tagButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      updateProjectVisibility('All');
+      return;
+    }
+    // Toggle tag
+    btn.classList.toggle('active');
+    // Remove "All" active if any tag is selected
+    const activeTags = tagButtons.filter(b => b.dataset.tag !== 'All' && b.classList.contains('active'));
+    const allBtn = tagButtons.find(b => b.dataset.tag === 'All');
+    if (activeTags.length === 0) {
+      // No tags selected, select "All"
+      tagButtons.forEach(b => b.classList.remove('active'));
+      allBtn.classList.add('active');
+      updateProjectVisibility('All');
+    } else {
+      allBtn.classList.remove('active');
+      // Show projects matching any selected tag
+      const selectedTags = activeTags.map(b => b.dataset.tag);
+      projectCards.forEach(card => {
+        const tags = card.getAttribute('data-tags').split(',');
+        card.style.display = selectedTags.some(tag => tags.includes(tag)) ? '' : 'none';
+      });
+    }
+  });
+});
+
+// Contact form submission (basic example)
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // You can add your form handling logic here (e.g., send to API, show a message, etc.)
+    alert('Thank you for your message!');
+    contactForm.reset();
+  });
+}
