@@ -28,7 +28,7 @@ export function initScene() {
     camera.updateProjectionMatrix();
   }
 
-  const gridRows = 24;
+  const gridRows = 48;
   const gridCols = 24;
   let gridGroup = new THREE.Group();
 
@@ -43,8 +43,8 @@ export function initScene() {
     }
     gridGroup = new THREE.Group();
 
-    const planeWidth = 3 / 24;
-    const planeHeight = 3 / 24;
+    const planeWidth = 5 / 24;
+    const planeHeight = 2 / 24;
     const gridWidth = planeWidth * gridCols;
     const gridHeight = planeHeight * gridRows;
     const y = -0.45; // y position for the bottom face, slightly higher than -0.5
@@ -52,18 +52,18 @@ export function initScene() {
     for (let row = 0; row < gridRows; row++) {
       for (let col = 0; col < gridCols; col++) {
         const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
-        const material = new THREE.MeshBasicMaterial({
-          color: 0x00bfff,
-          wireframe: true,
-        });
-        const plane = new THREE.Mesh(geometry, material);
+        const edges = new THREE.EdgesGeometry(geometry);
+        const material = new THREE.LineBasicMaterial({ color: 0x00bfff });
+        const line = new THREE.LineSegments(edges, material);
 
         // Center the grid at (0, y, 0)
         const x = -gridWidth / 2 + planeWidth / 2 + col * planeWidth;
         const z = -gridHeight / 2 + planeHeight / 2 + row * planeHeight;
-        plane.position.set(x, y, z);
-        plane.rotation.x = -Math.PI / 2; // Make it horizontal (XZ plane)
-        gridGroup.add(plane);
+        line.position.set(x, y, z);
+        line.rotation.x = -Math.PI / 2; // Make it horizontal (XZ plane)
+        gridGroup.add(line);
+
+        geometry.dispose(); // Clean up geometry, only edges are needed
       }
     }
     scene.add(gridGroup);
