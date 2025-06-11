@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/three.js"></script>
     <title>Vite App</title>
   </head>
   <body>
@@ -21,6 +22,7 @@
     <div id="root">
       <div id="sections">
         <section id="home" class="fullpage">
+          <canvas id="three-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;"></canvas>
           <p>Hi, my name is</p>
           <h1 style="font-size:3rem; margin:0.2em 0 0.4em 0;">John Doe</h1>
           <p>Placeholder text</p>
