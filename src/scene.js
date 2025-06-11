@@ -28,8 +28,6 @@ export function initScene() {
     camera.updateProjectionMatrix();
   }
 
-  // Remove box, add grid of planes (24x24) replacing the previous bottom face of the box
-  // The grid will be centered at (0, -0.5, 0), lying in the XZ plane (y = -0.5)
   const gridRows = 24;
   const gridCols = 24;
   let gridGroup = new THREE.Group();
@@ -45,10 +43,10 @@ export function initScene() {
     }
     gridGroup = new THREE.Group();
 
-    const gridWidth = aspect * 1.5;   // Make grid 1.5x wider
-    const gridHeight = 1 * 1.5;       // Make grid 1.5x taller
-    const planeWidth = gridWidth / gridCols;
-    const planeHeight = gridHeight / gridRows;
+    const planeWidth = 3 / 24;
+    const planeHeight = 3 / 24;
+    const gridWidth = planeWidth * gridCols;
+    const gridHeight = planeHeight * gridRows;
     const y = -0.45; // y position for the bottom face, slightly higher than -0.5
 
     for (let row = 0; row < gridRows; row++) {
