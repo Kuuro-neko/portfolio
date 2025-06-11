@@ -10,52 +10,79 @@ export function initScene() {
   // Scene and camera
   const scene = new THREE.Scene();
 
-  // Calculate box size to match viewport aspect ratio
-  function getBoxSize(width, height) {
+  // Camera setup so that the grid fills the screen
+  function setupCamera(camera, width, height) {
     const aspect = width / height;
-    return { w: aspect, h: 1 };
-  }
+    const distance = 0.1; // Move camera closer (was 0.5)
+    const gridHeight = 1;
+    const gridWidth = aspect;
 
-  // Camera setup so that the front face fills the screen
-  function setupCameraAndBox(camera, box, width, height) {
-    const aspect = width / height;
-    const distance = 0.5; // distance from camera to front face
-    const boxHeight = 1;
-    const boxWidth = aspect;
-
-    // Update box geometry
-    box.geometry.dispose();
-    box.geometry = new THREE.BoxGeometry(boxWidth, boxHeight, 1);
-
-    // FOV so that the box's height fits the screen at z=0.5
-    const fov = 2 * THREE.MathUtils.radToDeg(Math.atan((boxHeight / 2) / distance));
+    // FOV so that the grid's height fits the screen at z=distance
+    const fov = 2 * THREE.MathUtils.radToDeg(Math.atan((gridHeight / 2) / distance));
     camera.fov = fov;
     camera.aspect = aspect;
     camera.near = distance;
     camera.far = 1000;
-    camera.position.set(0, 0, distance);
+    camera.position.set(0, -0.01, distance);
     camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   }
 
-  // Initial box with placeholder geometry, will be replaced in setupCameraAndBox
-  const initialGeometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00bfff, wireframe: true });
-  const box = new THREE.Mesh(initialGeometry, material);
-  scene.add(box);
+  // Remove box, add grid of planes (24x24) replacing the previous bottom face of the box
+  // The grid will be centered at (0, -0.5, 0), lying in the XZ plane (y = -0.5)
+  const gridRows = 24;
+  const gridCols = 24;
+  let gridGroup = new THREE.Group();
+
+  function createGrid(aspect) {
+    // Remove previous grid if any
+    if (gridGroup) {
+      scene.remove(gridGroup);
+      gridGroup.traverse(obj => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) obj.material.dispose();
+      });
+    }
+    gridGroup = new THREE.Group();
+
+    const gridWidth = aspect * 1.5;   // Make grid 1.5x wider
+    const gridHeight = 1 * 1.5;       // Make grid 1.5x taller
+    const planeWidth = gridWidth / gridCols;
+    const planeHeight = gridHeight / gridRows;
+    const y = -0.45; // y position for the bottom face, slightly higher than -0.5
+
+    for (let row = 0; row < gridRows; row++) {
+      for (let col = 0; col < gridCols; col++) {
+        const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
+        const material = new THREE.MeshBasicMaterial({
+          color: 0x00bfff,
+          wireframe: true,
+        });
+        const plane = new THREE.Mesh(geometry, material);
+
+        // Center the grid at (0, y, 0)
+        const x = -gridWidth / 2 + planeWidth / 2 + col * planeWidth;
+        const z = -gridHeight / 2 + planeHeight / 2 + row * planeHeight;
+        plane.position.set(x, y, z);
+        plane.rotation.x = -Math.PI / 2; // Make it horizontal (XZ plane)
+        gridGroup.add(plane);
+      }
+    }
+    scene.add(gridGroup);
+  }
 
   const camera = new THREE.PerspectiveCamera();
-  setupCameraAndBox(camera, box, window.innerWidth, window.innerHeight);
+  setupCamera(camera, window.innerWidth, window.innerHeight);
+  createGrid(window.innerWidth / window.innerHeight);
 
   // Responsive resize
   window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
-    setupCameraAndBox(camera, box, window.innerWidth, window.innerHeight);
+    setupCamera(camera, window.innerWidth, window.innerHeight);
+    createGrid(window.innerWidth / window.innerHeight);
+    renderer.render(scene, camera);
   });
 
-  // Render once, no animation or rotation
-  box.rotation.x = 0;
-  box.rotation.y = 0;
-  box.rotation.z = 0;
+  // Render once, no animation
   renderer.render(scene, camera);
 }
