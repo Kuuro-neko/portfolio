@@ -1,4 +1,7 @@
+import { createNoise2D } from 'simplex-noise';
 import * as THREE from 'three';
+
+const noise2D = createNoise2D();
 
 export function initScene() {
   // Get the canvas from the DOM
@@ -51,19 +54,52 @@ export function initScene() {
 
     for (let row = 0; row < gridRows; row++) {
       for (let col = 0; col < gridCols; col++) {
-        const geometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
-        const edges = new THREE.EdgesGeometry(geometry);
-        const material = new THREE.LineBasicMaterial({ color: 0x00bfff });
-        const line = new THREE.LineSegments(edges, material);
+        const hw = planeWidth / 2;
+        const hh = planeHeight / 2;
+        // Vertices for XZ plane at y
+        const vertices = new Float32Array([
+          -hw, y, -hh, // 0: bottom left
+           hw, y, -hh, // 1: bottom right
+           hw, y,  hh, // 2: top right
+          -hw, y,  hh  // 3: top left
+        ]);
+        // Indices for lines
+        const lineIndices = [
+          0, 1, 1, 2, 2, 3, 3, 0
+        ];
+        // Indices for face (two triangles)
+        const faceIndices = [
+          0, 1, 2,
+          0, 2, 3
+        ];
 
-        // Center the grid at (0, y, 0)
+        // Face mesh
+        const faceGeometry = new THREE.BufferGeometry();
+        faceGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        faceGeometry.setIndex(faceIndices);
+        faceGeometry.computeVertexNormals();
+        const faceMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+        const faceMesh = new THREE.Mesh(faceGeometry, faceMaterial);
+
+        // Edge lines
+        const lineGeometry = new THREE.BufferGeometry();
+        lineGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        lineGeometry.setIndex(lineIndices);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00bfff });
+        const line = new THREE.LineSegments(lineGeometry, lineMaterial);
+
+        // Position both at the correct spot
         const x = -gridWidth / 2 + planeWidth / 2 + col * planeWidth;
         const z = -gridHeight / 2 + planeHeight / 2 + row * planeHeight;
-        line.position.set(x, y, z);
-        line.rotation.x = -Math.PI / 2; // Make it horizontal (XZ plane)
+        faceMesh.position.set(x, 0, z);
+        line.position.set(x, 0, z);
+
+        gridGroup.add(faceMesh);
         gridGroup.add(line);
 
-        geometry.dispose(); // Clean up geometry, only edges are needed
+        // Clean up geometry if you want, but only after removal from scene
+        // faceGeometry.dispose();
+        // lineGeometry.dispose();
       }
     }
     scene.add(gridGroup);
