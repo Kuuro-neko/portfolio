@@ -442,3 +442,8 @@ body, html {
   transform: translateX(100vw);
   pointer-events: none;
 }
+
+/* Hide navbar when on the HOME section only */
+body.home-active #navbar {
+  display: none !important;
+}

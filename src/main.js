@@ -36,6 +36,13 @@ function showSection(index) {
     if (link) link.classList.toggle('active', i === index);
   });
 
+  // Toggle navbar visibility for home section
+  if (currentSection === 0) {
+    document.body.classList.add('home-active');
+  } else {
+    document.body.classList.remove('home-active');
+  }
+
   setTimeout(() => { isSliding = false; }, 400);
 }
 
