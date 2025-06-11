@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <script type="module" crossorigin src="/assets/index-CSHvdbo-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-8EdM9KB1.css">
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="#home" id="nav-home">Home</a>
+      <a href="#about" id="nav-about">About</a>
+      <a href="#projects" id="nav-projects">Projects</a>
+      <a href="#contact" id="nav-contact">Contact</a>
+    </nav>
+    <div id="arrows">
+      <button id="arrow-left" aria-label="Previous section">&#8592;</button>
+      <button id="arrow-right" aria-label="Next section">&#8594;</button>
+    </div>
+    <div id="root">
+      <div id="sections">
+        <section id="home" class="fullpage">
+          <canvas id="three-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;"></canvas>
+          <p>Hi, my name is</p>
+          <h1 style="font-size:3rem; margin:0.2em 0 0.4em 0;">John Doe</h1>
+          <p>Placeholder text</p>
+        </section>
+        <section id="about" class="fullpage"><h2>About</h2><p>About me content...</p></section>
+        <section id="projects" class="fullpage">
+          <h2>A few projects</h2>
+          <div id="project-tags">
+            <button class="tag active" data-tag="All">All</button>
+            <button class="tag tag-cpp" data-tag="C++">C++</button>
+            <button class="tag tag-kotlin" data-tag="Kotlin">Kotlin</button>
+            <button class="tag tag-react" data-tag="React">React</button>
+            <button class="tag tag-python" data-tag="Python">Python</button>
+            <!-- Add more tags as needed -->
+          </div>
+          <div id="project-grid">
+            <div class="project-card" data-tags="C++,React" data-link="https://github.com/your/project1">
+              <img src="https://placehold.co/300x150" alt="Project 1" />
+              <h3>Project One</h3>
+              <div class="project-card-tags">
+                <span class="tag">C++</span>
+                <span class="tag">React</span>
+              </div>
+              <p>Short description of Project One.</p>
+            </div>
+            <div class="project-card" data-tags="Kotlin,Android" data-link="https://github.com/your/project2">
+              <img src="https://placehold.co/300x150" alt="Project 2" />
+              <h3>Project Two</h3>
+              <div class="project-card-tags">
+                <span class="tag">Kotlin</span>
+                <span class="tag">Android</span>
+              </div>
+              <p>Short description of Project Two.</p>
+            </div>
+            <div class="project-card" data-tags="Python" data-link="https://github.com/your/project3">
+              <img src="https://placehold.co/300x150" alt="Project 3" />
+              <h3>Project Three</h3>
+              <div class="project-card-tags">
+                <span class="tag">Python</span>
+              </div>
+              <p>Short description of Project Three.</p>
+            </div>
+            <!-- More projects -->
+          </div>
+        </section>
+        <!-- Contact Section -->
+        <section class="fullpage" id="contact">
+          <h2>Contact me !</h2>
+          <div class="contact-container">
+            <div class="contact-info">
+              <p>
+                <img src="/mail_icon.svg" alt="Mail" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <strong>Mail:</strong>
+                <a href="mailto:your.email@example.com">your.email@example.com</a>
+                <br>
+                <img src="/github_icon.svg" alt="GitHub" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <strong>GitHub:</strong>
+                <a href="https://github.com/yourgithub" target="_blank">yourgithub</a>
+                <br>
+                <img src="/phone_icon.svg" alt="Phone" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <strong>Phone:</strong>
+                <a href="tel:+1234567890">+1 234 567 890</a>
+              </p>
+            </div>
+            <form id="contact-form">
+              <label for="contact-name">Name</label>
+              <input type="text" id="contact-name" name="name" required />
+
+              <label for="contact-mail">Mail</label>
+              <input type="email" id="contact-mail" name="mail" required />
+
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="5" required></textarea>
+
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
