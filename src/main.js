@@ -126,3 +126,22 @@ if (contactForm) {
     contactForm.reset();
   });
 }
+
+const defaultLink = 'https://github.com';
+
+projectCards.forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', (e) => {
+    card.blur();
+    const url = card.getAttribute('data-link') || defaultLink;
+    window.open(url, '_blank');
+  });
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      card.blur();
+      const url = card.getAttribute('data-link') || defaultLink;
+      window.open(url, '_blank');
+    }
+  });
+  card.tabIndex = 0;
+});
