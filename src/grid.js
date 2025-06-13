@@ -29,7 +29,7 @@ export class InfiniteGrid {
     this.gridWidth = this.planeWidth * this.gridCols;
     this.gridHeight = this.planeHeight * this.gridRows;
     this.y = -0.45;
-    this.rowSpeed = options.rowSpeed || 0.91;
+    this.rowSpeed = options.rowSpeed || 0.1;
     this.scroll = 0;
     this.lastTime = performance.now();
     this.rowIndexManager = RowIndexSingleton.getInstance();
@@ -120,17 +120,19 @@ export class InfiniteGrid {
     const deltaTime = (now - this.lastTime) / 1000;
     this.lastTime = now;
     this.scroll += this.rowSpeed * deltaTime;
+
+    if (this.scroll > this.planeHeight) {
+      this.scroll -= this.planeHeight;
+      const firstRow = this.rowGroups.shift();
+      this.rowGroups.push(firstRow);
+      console.log(`Row index reset for row: ${firstRow.userData.rowIndex}`);
+      this.rowGroups[this.rowGroups.length - 1].userData.rowIndex = this.rowIndexManager.getAndIncrementRowIndex();
+      console.log(`New row index assigned: ${this.rowGroups[this.rowGroups.length - 1].userData.rowIndex}`);
+    }
+
     for (let i = 0; i < this.rowGroups.length; i++) {
       const rowGroup = this.rowGroups[i];
-      rowGroup.position.z = -this.gridHeight / 2 + this.planeHeight / 2 + (rowGroup.userData.rowIndex * this.planeHeight) + this.scroll;
-      if (rowGroup.position.z > this.gridHeight / 2 + this.planeHeight / 2) {
-        rowGroup.userData.rowIndex = this.rowIndexManager.getAndIncrementRowIndex();
-        rowGroup.position.z = -this.gridHeight / 2 + this.planeHeight / 2 + (rowGroup.userData.rowIndex * this.planeHeight) + this.scroll;
-      }
-      if (rowGroup.position.z < -this.gridHeight / 2 - this.planeHeight / 2) {
-        rowGroup.userData.rowIndex = this.rowIndexManager.getAndIncrementRowIndex();
-        rowGroup.position.z = this.gridHeight / 2 + this.planeHeight / 2 + (rowGroup.userData.rowIndex * this.planeHeight) + this.scroll;
-      }
+      rowGroup.position.z = -this.gridHeight / 2 + this.planeHeight / 2 + (i * this.planeHeight) + this.scroll;
     }
     this.renderer.render(this.scene, this.camera);
     this.animationId = requestAnimationFrame(() => this.animate());
