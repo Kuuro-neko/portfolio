@@ -1,27 +1,19 @@
 import * as THREE from 'three';
 
+import { sizes } from './scene.js';
+
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
+
+
 const textureLoader = new THREE.TextureLoader();
 function loadTextureAsync(url) {
   return new Promise((resolve, reject) => {
     textureLoader.load(url, resolve, undefined, reject);
   });
-}
-
-// Singleton to manage row indices
-class RowIndexSingleton {
-  static instance = null;
-  constructor() {
-    this.currentIndex = 0;
-  }
-  static getInstance() {
-    if (!RowIndexSingleton.instance) {
-      RowIndexSingleton.instance = new RowIndexSingleton();
-    }
-    return RowIndexSingleton.instance;
-  }
-  getAndIncrementRowIndex() {
-    return this.currentIndex++;
-  }
 }
 
 export class InfiniteGrid {
@@ -45,6 +37,8 @@ export class InfiniteGrid {
     const HEIGHTMAP_PATH = './portfolio/textures/heightmap.png';
     const METALNESS_PATH = './portfolio/textures/metalness.png';
 
+    this.setupPostProcessing();
+
     Promise.all([
       loadTextureAsync(TEXTURE_PATH),
       loadTextureAsync(HEIGHTMAP_PATH),
@@ -65,6 +59,20 @@ export class InfiniteGrid {
     });
   }
 
+  setupPostProcessing() {
+    this.effectComposer = new EffectComposer(this.renderer);
+    this. effectComposer.setSize(sizes.width, sizes.height);
+    this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.effectComposer.addPass(renderPass);
+
+    const rgbShiftPass = new ShaderPass(RGBShiftShader);
+    rgbShiftPass.uniforms['amount'].value = 0.0015;
+
+    this.effectComposer.addPass(rgbShiftPass);
+  }
+
   createPlanes() {
     if (this.plane) {
       this.scene.remove(this.plane);
@@ -80,6 +88,9 @@ export class InfiniteGrid {
         map: this.texture,
         displacementMap: this.heightmap,
         displacementScale: 0.4,
+        metalnessMap: this.metalness,
+        metalness: 0.89,
+        roughness: 0.75,
     });
     
     this.plane = new THREE.Mesh(geometry, material);
@@ -113,7 +124,7 @@ export class InfiniteGrid {
   }
 
   resize() {
-    this.rowIndexManager.currentIndex = 0;
+    this.setupPostProcessing();
     this.createPlanes(false);
   }
 
@@ -127,6 +138,8 @@ export class InfiniteGrid {
   }
 
   render() {
-    this.renderer.render(this.scene, this.camera);
+    //this.renderer.render(this.scene, this.camera);
+
+    this.effectComposer.render();
   }
 }

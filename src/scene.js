@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import { InfiniteGrid } from './grid.js';
 
+export var sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  aspect: window.innerWidth / window.innerHeight,
+  pixelRatio: Math.min(window.devicePixelRatio, 2)
+};
+
 export function initScene() {
   // Get the canvas from the DOM
   const canvas = document.getElementById('three-bg');
@@ -32,6 +39,25 @@ export function initScene() {
   const ambientLight = new THREE.AmbientLight("#ffffff", 10);
   scene.add(ambientLight);
 
+  // Spotlights
+  // Right Spotlight
+  const spotlight = new THREE.SpotLight('#d53c3d', 200, 25, Math.PI * 0.1, 0.25);
+  spotlight.position.set(0.5, 0.75, 2.2);
+  spotlight.target.position.x = -0.25;
+  spotlight.target.position.y = 0.25;
+  spotlight.target.position.z = 0.25;
+  scene.add(spotlight);
+  scene.add(spotlight.target);
+
+  // Left Spotlight
+  const spotlight2 = new THREE.SpotLight('#d53c3d', 200, 25, Math.PI * 0.1, 0.25);
+  spotlight2.position.set(-0.5, 0.75, 2.2);
+  spotlight2.target.position.x = 0.25;
+  spotlight2.target.position.y = 0.25;
+  spotlight2.target.position.z = 0.25;
+  scene.add(spotlight2);
+  scene.add(spotlight2.target);
+
   // Grid
   let infiniteGrid = new InfiniteGrid(scene, camera, renderer);
 
@@ -44,6 +70,10 @@ export function initScene() {
   window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     setupCamera(camera, window.innerWidth, window.innerHeight);
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+    sizes.aspect = window.innerWidth / window.innerHeight;
+    sizes.pixelRatio = Math.min(window.devicePixelRatio, 2);
     infiniteGrid.resize();
     infiniteGrid.render();
   });
