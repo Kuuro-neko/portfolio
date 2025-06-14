@@ -1,8 +1,5 @@
-import { createNoise2D } from 'simplex-noise';
 import * as THREE from 'three';
 import { InfiniteGrid } from './grid.js';
-
-const noise2D = createNoise2D();
 
 export function initScene() {
   // Get the canvas from the DOM
@@ -16,15 +13,14 @@ export function initScene() {
 
   function setupCamera(camera, width, height) {
     const aspect = width / height;
-    const distance = 0.1; // Move camera closer (was 0.5)
     const gridHeight = 1;
 
-    const fov = 2 * THREE.MathUtils.radToDeg(Math.atan((gridHeight / 2) / distance));
+    const fov = 75;
     camera.fov = fov;
     camera.aspect = aspect;
-    camera.near = distance;
-    camera.far = 1000;
-    camera.position.set(0, -0.01, distance);
+    camera.near = 0.01;
+    camera.far = 20;
+    camera.position.set(0, 0.1, 1.1);
     camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   }
@@ -32,8 +28,17 @@ export function initScene() {
   const camera = new THREE.PerspectiveCamera();
   setupCamera(camera, window.innerWidth, window.innerHeight);
 
+  // Ambient light
+  const ambientLight = new THREE.AmbientLight("#ffffff", 10);
+  scene.add(ambientLight);
+
   // Grid
   let infiniteGrid = new InfiniteGrid(scene, camera, renderer);
+
+  // Fog
+  scene.fog = new THREE.Fog('#000000', 1, 2.5);
+  scene.background = new THREE.Color(0x000000);
+  scene.fog.color.set(0x000000);
 
   // Responsive resize
   window.addEventListener('resize', () => {

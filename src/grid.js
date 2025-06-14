@@ -1,5 +1,12 @@
 import * as THREE from 'three';
 
+const textureLoader = new THREE.TextureLoader();
+function loadTextureAsync(url) {
+  return new Promise((resolve, reject) => {
+    textureLoader.load(url, resolve, undefined, reject);
+  });
+}
+
 // Singleton to manage row indices
 class RowIndexSingleton {
   static instance = null;
@@ -18,84 +25,79 @@ class RowIndexSingleton {
 }
 
 export class InfiniteGrid {
-  constructor(scene, camera, renderer, options = {}) {
+  constructor(scene, camera, renderer) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
-    this.gridRows = options.gridRows || 48;
-    this.gridCols = options.gridCols || 24;
-    this.planeWidth = 5 / 24;
-    this.planeHeight = 2 / 24;
-    this.gridWidth = this.planeWidth * this.gridCols;
-    this.gridHeight = this.planeHeight * this.gridRows;
-    this.y = -0.45;
-    this.rowSpeed = options.rowSpeed || 0.1;
-    this.scroll = 0;
+
+    this.speed = 0.15;
     this.lastTime = performance.now();
-    this.rowIndexManager = RowIndexSingleton.getInstance();
-    this.gridGroup = null;
-    this.rowGroups = [];
+
+    this.plane = null;
+    this.plane2 = null;
+
     this.animating = false;
     this.animationId = null;
-    this.createGrid();
-    this.start();
+
+    this.clock = new THREE.Clock();
+
+    const TEXTURE_PATH = './portfolio/textures/texture.png';
+    const HEIGHTMAP_PATH = './portfolio/textures/heightmap.png';
+    const METALNESS_PATH = './portfolio/textures/metalness.png';
+
+    Promise.all([
+      loadTextureAsync(TEXTURE_PATH),
+      loadTextureAsync(HEIGHTMAP_PATH),
+      loadTextureAsync(METALNESS_PATH)
+    ]).then(([texture, heightmap, metalness]) => {
+      this.texture = texture;
+      this.heightmap = heightmap;
+      this.metalness = metalness;
+      this.createPlanes();
+      this.start();
+    });
   }
 
-  createGrid(resetIndex = true) {
-    if (this.gridGroup) {
-      this.scene.remove(this.gridGroup);
-      this.gridGroup.traverse(obj => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (obj.material) obj.material.dispose();
-      });
+  loadTextureAsync(url) {
+    return new Promise((resolve, reject) => {
+      const loader = new THREE.TextureLoader();
+      loader.load(url, resolve, undefined, reject);
+    });
+  }
+
+  createPlanes() {
+    if (this.plane) {
+      this.scene.remove(this.plane);
+      this.plane.geometry.dispose();
+      this.plane.material.dispose();
+      this.scene.remove(this.plane2);
+      this.plane2.geometry.dispose();
+      this.plane2.material.dispose();
     }
-    this.gridGroup = new THREE.Group();
-    this.rowGroups = [];
-    if (resetIndex) this.rowIndexManager.currentIndex = 0;
-    for (let row = 0; row < this.gridRows; row++) {
-      const rowGroup = new THREE.Group();
-      rowGroup.userData.rowIndex = this.rowIndexManager.getAndIncrementRowIndex();
-      for (let col = 0; col < this.gridCols; col++) {
-        const hw = this.planeWidth / 2;
-        const hh = this.planeHeight / 2;
-        const vertices = new Float32Array([
-          -hw, this.y, -hh,
-           hw, this.y, -hh,
-           hw, this.y,  hh,
-          -hw, this.y,  hh
-        ]);
-        const lineIndices = [0, 1, 1, 2, 2, 3, 3, 0];
-        const faceIndices = [0, 1, 2, 0, 2, 3];
-        const faceGeometry = new THREE.BufferGeometry();
-        faceGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        faceGeometry.setIndex(faceIndices);
-        faceGeometry.computeVertexNormals();
-        const faceMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-        const faceMesh = new THREE.Mesh(faceGeometry, faceMaterial);
-        const lineGeometry = new THREE.BufferGeometry();
-        lineGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        lineGeometry.setIndex(lineIndices);
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00bfff });
-        const line = new THREE.LineSegments(lineGeometry, lineMaterial);
-        const x = -this.gridWidth / 2 + this.planeWidth / 2 + col * this.planeWidth;
-        faceMesh.position.set(x, 0, 0);
-        line.position.set(x, 0, 0);
-        rowGroup.add(faceMesh);
-        rowGroup.add(line);
-      }
-      // Position the row group in z
-      const z = -this.gridHeight / 2 + this.planeHeight / 2 + row * this.planeHeight;
-      rowGroup.position.set(0, 0, z);
-      this.gridGroup.add(rowGroup);
-      this.rowGroups.push(rowGroup);
-    }
-    this.scene.add(this.gridGroup);
-    this.scroll = 0;
+
+    const geometry = new THREE.PlaneGeometry(1, 2, 24, 24);
+    const material = new THREE.MeshStandardMaterial({
+        map: this.texture,
+        displacementMap: this.heightmap,
+        displacementScale: 0.4,
+    });
+    
+    this.plane = new THREE.Mesh(geometry, material);
+    this.plane.rotation.x = -Math.PI / 2;
+    this.plane.position.set(0, -0.0, 0);
+
+    this.plane2 = new THREE.Mesh(geometry, material);
+    this.plane2.rotation.x = -Math.PI / 2;
+    this.plane2.position.set(0, -0.0, -2);
+
+    this.scene.add(this.plane);
+    this.scene.add(this.plane2);
+
     this.lastTime = performance.now();
   }
 
   setSpeed(newSpeed) {
-    this.rowSpeed = newSpeed;
+    this.speed = newSpeed;
   }
 
   start() {
@@ -111,29 +113,15 @@ export class InfiniteGrid {
   }
 
   resize() {
-    this.createGrid(false);
+    this.rowIndexManager.currentIndex = 0;
+    this.createPlanes(false);
   }
 
   animate() {
     if (!this.animating) return;
-    const now = performance.now();
-    const deltaTime = (now - this.lastTime) / 1000;
-    this.lastTime = now;
-    this.scroll += this.rowSpeed * deltaTime;
-
-    if (this.scroll > this.planeHeight) {
-      this.scroll -= this.planeHeight;
-      const firstRow = this.rowGroups.shift();
-      this.rowGroups.push(firstRow);
-      console.log(`Row index reset for row: ${firstRow.userData.rowIndex}`);
-      this.rowGroups[this.rowGroups.length - 1].userData.rowIndex = this.rowIndexManager.getAndIncrementRowIndex();
-      console.log(`New row index assigned: ${this.rowGroups[this.rowGroups.length - 1].userData.rowIndex}`);
-    }
-
-    for (let i = 0; i < this.rowGroups.length; i++) {
-      const rowGroup = this.rowGroups[i];
-      rowGroup.position.z = -this.gridHeight / 2 + this.planeHeight / 2 + (i * this.planeHeight) + this.scroll;
-    }
+    const elapsed = this.clock.getElapsedTime();
+    this.plane.position.z = (elapsed * this.speed) % 2;
+    this.plane2.position.z = (elapsed * this.speed % 2) - 2;
     this.renderer.render(this.scene, this.camera);
     this.animationId = requestAnimationFrame(() => this.animate());
   }
