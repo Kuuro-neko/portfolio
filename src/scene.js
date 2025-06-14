@@ -20,7 +20,6 @@ export function initScene() {
 
   function setupCamera(camera, width, height) {
     const aspect = width / height;
-    const gridHeight = 1;
 
     const fov = 75;
     camera.fov = fov;

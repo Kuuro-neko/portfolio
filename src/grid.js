@@ -68,7 +68,6 @@ export class InfiniteGrid {
     const renderPass = new RenderPass(this.scene, this.camera);
     this.effectComposer.addPass(renderPass);
 
-    // Add UnrealBloomPass
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(sizes.width, sizes.height),
       0.35, // strength
@@ -79,8 +78,10 @@ export class InfiniteGrid {
 
     const rgbShiftPass = new ShaderPass(RGBShiftShader);
     rgbShiftPass.uniforms['amount'].value = 0.0015;
-
     this.effectComposer.addPass(rgbShiftPass);
+
+    const gammaCorrectionPass = new ShaderPass(GammaCorrectionShader);
+    this.effectComposer.addPass(gammaCorrectionPass);
   }
 
   createPlanes() {
@@ -100,7 +101,7 @@ export class InfiniteGrid {
         displacementScale: 0.4,
         metalnessMap: this.metalness,
         metalness: 0.96,
-        roughness: 0.65,
+        roughness: 0.5,
     });
     
     this.plane = new THREE.Mesh(geometry, material);
