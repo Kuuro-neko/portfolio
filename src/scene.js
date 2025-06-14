@@ -40,8 +40,9 @@ export function initScene() {
   scene.add(ambientLight);
 
   // Spotlights
+  const color = '#8B3030';
   // Right Spotlight
-  const spotlight = new THREE.SpotLight('#d53c3d', 200, 25, Math.PI * 0.1, 0.25);
+  const spotlight = new THREE.SpotLight(color, 200, 25, Math.PI * 0.1, 0.25);
   spotlight.position.set(0.5, 0.75, 2.2);
   spotlight.target.position.x = -0.25;
   spotlight.target.position.y = 0.25;
@@ -50,7 +51,7 @@ export function initScene() {
   scene.add(spotlight.target);
 
   // Left Spotlight
-  const spotlight2 = new THREE.SpotLight('#d53c3d', 200, 25, Math.PI * 0.1, 0.25);
+  const spotlight2 = new THREE.SpotLight(color, 200, 25, Math.PI * 0.1, 0.25);
   spotlight2.position.set(-0.5, 0.75, 2.2);
   spotlight2.target.position.x = 0.25;
   spotlight2.target.position.y = 0.25;

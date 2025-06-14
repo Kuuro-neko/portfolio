@@ -7,6 +7,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { GammaCorrectionShader } from "three/examples/jsm/shaders/GammaCorrectionShader.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
 
 const textureLoader = new THREE.TextureLoader();
@@ -67,6 +68,15 @@ export class InfiniteGrid {
     const renderPass = new RenderPass(this.scene, this.camera);
     this.effectComposer.addPass(renderPass);
 
+    // Add UnrealBloomPass
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(sizes.width, sizes.height),
+      0.35, // strength
+      -0.9, // radius
+      0.01 // threshold
+    );
+    this.effectComposer.addPass(bloomPass);
+
     const rgbShiftPass = new ShaderPass(RGBShiftShader);
     rgbShiftPass.uniforms['amount'].value = 0.0015;
 
@@ -89,8 +99,8 @@ export class InfiniteGrid {
         displacementMap: this.heightmap,
         displacementScale: 0.4,
         metalnessMap: this.metalness,
-        metalness: 0.89,
-        roughness: 0.75,
+        metalness: 0.96,
+        roughness: 0.65,
     });
     
     this.plane = new THREE.Mesh(geometry, material);
