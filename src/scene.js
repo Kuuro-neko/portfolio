@@ -45,8 +45,8 @@ export function initScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     setupCamera(camera, window.innerWidth, window.innerHeight);
     infiniteGrid.resize();
-    renderer.render(scene, camera);
+    infiniteGrid.render();
   });
 
-  renderer.render(scene, camera);
+  infiniteGrid.render();
 }

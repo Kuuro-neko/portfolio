@@ -122,7 +122,11 @@ export class InfiniteGrid {
     const elapsed = this.clock.getElapsedTime();
     this.plane.position.z = (elapsed * this.speed) % 2;
     this.plane2.position.z = (elapsed * this.speed % 2) - 2;
-    this.renderer.render(this.scene, this.camera);
+    this.render();
     this.animationId = requestAnimationFrame(() => this.animate());
+  }
+
+  render() {
+    this.renderer.render(this.scene, this.camera);
   }
 }
