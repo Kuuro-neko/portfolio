@@ -34,9 +34,10 @@ export class InfiniteGrid {
 
     this.clock = new THREE.Clock();
 
-    const TEXTURE_PATH = './portfolio/textures/texture.png';
-    const HEIGHTMAP_PATH = './portfolio/textures/heightmap.png';
-    const METALNESS_PATH = './portfolio/textures/metalness.png';
+    const BASE_PATH = window.location.pathname.includes('/portfolio/') ? '' : '/portfolio';
+    const TEXTURE_PATH = `${BASE_PATH}/textures/texture.png`;
+    const HEIGHTMAP_PATH = `${BASE_PATH}/textures/heightmap.png`;
+    const METALNESS_PATH = `${BASE_PATH}/textures/metalness.png`;
 
     this.setupPostProcessing();
 
@@ -70,7 +71,7 @@ export class InfiniteGrid {
 
     const bloomPass = new UnrealBloomPass(
       new THREE.Vector2(sizes.width, sizes.height),
-      0.35, // strength
+      0.22, // strength
       -0.9, // radius
       0.01 // threshold
     );
