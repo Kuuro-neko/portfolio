@@ -33,11 +33,10 @@ export class InfiniteGrid {
     this.animationId = null;
 
     this.clock = new THREE.Clock();
-
-    const BASE_PATH = window.location.pathname.includes('/portfolio/') ? '' : '/portfolio';
-    const TEXTURE_PATH = `${BASE_PATH}/textures/texture.png`;
-    const HEIGHTMAP_PATH = `${BASE_PATH}/textures/heightmap.png`;
-    const METALNESS_PATH = `${BASE_PATH}/textures/metalness.png`;
+    
+    const TEXTURE_PATH = `/textures/texture.png`;
+    const HEIGHTMAP_PATH = `/textures/heightmap.png`;
+    const METALNESS_PATH = `/textures/metalness.png`;
 
     this.setupPostProcessing();
 

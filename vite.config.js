@@ -2,5 +2,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/portfolio',
+  base: process.env.NODE_ENV === 'production' ? '/portfolio/' : '/',
 });
