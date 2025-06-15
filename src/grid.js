@@ -34,9 +34,11 @@ export class InfiniteGrid {
 
     this.clock = new THREE.Clock();
     
-    const TEXTURE_PATH = `/textures/texture.png`;
-    const HEIGHTMAP_PATH = `/textures/heightmap.png`;
-    const METALNESS_PATH = `/textures/metalness.png`;
+    const BASE = import.meta.env.BASE_URL;
+
+    const TEXTURE_PATH = `${BASE}textures/texture.png`;
+const HEIGHTMAP_PATH = `${BASE}textures/heightmap.png`;
+const METALNESS_PATH = `${BASE}textures/metalness.png`;
 
     this.setupPostProcessing();
 
