@@ -78,7 +78,7 @@ body, html {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  overflow-x: auto;
+  overflow-x: inherit;
   padding: 0.5rem 0;
 }
 
@@ -142,9 +142,16 @@ body, html {
 #project-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 2.5rem 2rem;
   width: 90%;
   max-width: 1200px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .project-card {
@@ -182,14 +189,16 @@ body, html {
   background: #fff;
   border: 1.5px solid var(--tag-color, #333);
   border-radius: 20px;
-  padding: 0.2em 0.8em;
+  padding: 0.2em 1em; /* Increased horizontal padding */
   font-size: 0.95rem;
   font-weight: 500;
-  margin: 0;
+  margin: 0 0.3em 0 0; /* Add right margin for spacing between tags */
   cursor: default;
   transition: none;
   box-shadow: none;
   pointer-events: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .project-card p {
