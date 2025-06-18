@@ -1,14 +1,25 @@
+:root {
+  --main-bg-color: #070505;
+  --secondary-bg-color: #181818;
+  --red-bg-color: #140c0c;
+  --navbar-border-color: #4F1718;
+  --primary-color: #631b1d;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
+  background: var(--main-bg-color);
+  color: #e0e0e0;
 }
 
 #root {
-  color: #ffffff;
+  color: #e0e0e0;
   font-family: Arial, sans-serif;
+  background: var(--main-bg-color);
 }
 
 /* Make navbar sticky below home */
@@ -17,14 +28,15 @@ body, html {
   top: 0;
   left: 0;
   width: 100vw;
-  background: #fff;
-  border-bottom: 1px solid #ddd;
+  background: var(--red-bg-color);
+  border-bottom: 1px solid var(--navbar-border-color);
   display: flex;
   justify-content: center;
   gap: 2rem;
   padding: 1rem 0;
   z-index: 2000;
   transition: top 0.3s, bottom 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
 /* Move navbar to bottom on small screens, keep all other styles */
@@ -32,13 +44,13 @@ body, html {
   #navbar {
     top: auto;
     bottom: 0;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--navbar-border-color);
     border-bottom: none;
   }
 }
 
 #navbar a {
-  color: #333;
+  color: #e0e0e0;
   text-decoration: none;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -47,7 +59,7 @@ body, html {
 }
 
 #navbar a.active {
-  background: #333;
+  background: var(--primary-color);
   color: #fff;
 }
 
@@ -58,20 +70,50 @@ body, html {
   justify-content: center;
   align-items: center;
   position: relative;
+  background: transparent !important;
 }
 
 #about {
+  background: var(--main-bg-color);
 }
 
 #projects {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   padding: 2rem 0;
+  background: var(--main-bg-color);
+  height: 100vh;
+  position: relative;
+}
+
+#projects h2, #project-tags {
+  position: sticky;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#projects h2 {
+  top: 0;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+#project-tags {
+  top: 3.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  gap: 1rem;
 }
 
 #projects h2 {
   margin-bottom: 1.5rem;
+  color: #fff;
 }
 
 #project-tags {
@@ -82,22 +124,18 @@ body, html {
   padding: 0.5rem 0;
 }
 
-#project-tags .tag {
-  background: #fff;
-  border: 1px solid #333;
-  border-radius: 20px;
-  padding: 0.3em 1em;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* Tag color classes */
+/* Project tags */
 .tag-cpp {
-  --tag-color: #00599C;
+  --tag-color: #1067a8;
 }
 .tag-kotlin {
   --tag-color: #A97BFF;
+}
+.tag-opengl {
+  --tag-color: #b4651c;
+}
+.tag-threejs {
+  --tag-color: #157512;
 }
 .tag-react {
   --tag-color: #61DAFB;
@@ -105,38 +143,37 @@ body, html {
 .tag-python {
   --tag-color: #3572A5;
 }
-/* Add more tag color classes as needed */
 
 /* All tag keeps gray */
 #project-tags .tag[data-tag="All"] {
-  --tag-color: #333;
-}
-
-/* Inactive state */
-#project-tags .tag {
-  color: var(--tag-color, #333);
-  background: #fff;
-  border: 1.5px solid var(--tag-color, #333);
-  transition: background 0.2s, color 0.2s;
-}
-
-/* Active state */
-#project-tags .tag.active {
-  color: #fff;
-  background: var(--tag-color, #333);
-  border: 1.5px solid var(--tag-color, #333);
-}
-
-/* All tag active/inactive overrides */
-#project-tags .tag[data-tag="All"] {
-  color: #333;
-  background: #fff;
-  border: 1.5px solid #333;
+  color: #e0e0e0;
+  background: #23272F;
+  border: 1.5px solid #444;
 }
 #project-tags .tag[data-tag="All"].active {
   color: #fff;
-  background: #333;
-  border: 1.5px solid #333;
+  background: var(--primary-color);
+  border: 1.5px solid var(--primary-color);
+}
+
+#project-tags .tag {
+  color: var(--tag-color, #e0e0e0);
+  background: #23272F;
+  border: 1.5px solid var(--tag-color, #444);
+  border-radius: 999px !important;
+  padding: 0.2em 1em;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0.3em 0 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+#project-tags .tag.active {
+  color: #fff;
+  background: var(--tag-color, #0078d7);
+  border: 1.5px solid var(--tag-color, #0078d7);
 }
 
 #project-grid {
@@ -146,30 +183,55 @@ body, html {
   width: 90%;
   max-width: 1200px;
   max-height: 70vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-bottom: 3rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  overflow: hidden;
+  padding: 3rem;
   margin-bottom: 1.5rem;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* PerfectScrollbar */
+.ps {
+  overflow: hidden !important;
+  touch-action: auto;
+}
+.ps__rail-y {
+  width: 8px;
+  background: transparent;
+  right: 2px;
+  border-radius: 4px;
+}
+.ps__thumb-y {
+  background: #333a4d;
+  border-radius: 4px;
+  width: 8px;
+  min-height: 40px;
+  opacity: 0.7;
+  transition: background 0.2s;
+}
+.ps__thumb-y:hover {
+  background: #0078d7;
 }
 
 .project-card {
-  background: #fff;
+  background: var(--secondary-bg-color);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: transform 0.18s cubic-bezier(.4,1.4,.6,1), box-shadow 0.18s;
   cursor: pointer;
+  border: 1px solid #23272F;
 }
 
 .project-card:hover, .project-card:focus {
   transform: scale(1.045);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.16);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.32);
   z-index: 2;
+  border: 1.5px solid var(--primary-color);
 }
 
 .project-card img {
@@ -177,22 +239,25 @@ body, html {
   max-width: 320px;
   border-radius: 8px;
   margin-bottom: 1rem;
+  background: #181A20;
+  aspect-ratio: 16 / 9;
 }
 
 .project-card h3 {
   margin: 0.5rem 0 0.5rem 0;
+  color: #fff;
 }
 
 /* Project card tags: styled like selectable tags, but not clickable */
 .project-card-tags .tag {
-  color: var(--tag-color, #333);
-  background: #fff;
-  border: 1.5px solid var(--tag-color, #333);
+  color: var(--tag-color, #e0e0e0);
+  background: #23272F;
+  border: 1.5px solid var(--tag-color, #444);
   border-radius: 20px;
-  padding: 0.2em 1em; /* Increased horizontal padding */
+  padding: 0.2em 1em;
   font-size: 0.95rem;
   font-weight: 500;
-  margin: 0 0.3em 0 0; /* Add right margin for spacing between tags */
+  margin: 0 0.3em 0 0;
   cursor: default;
   transition: none;
   box-shadow: none;
@@ -205,6 +270,7 @@ body, html {
   text-align: center;
   font-size: 1rem;
   margin: 0.5rem 0 0 0;
+  color: #b0b0b0;
 }
 
 /* Contact Section Styles */
@@ -213,19 +279,21 @@ body, html {
   flex-direction: column;
   align-items: center;
   padding: 40px 0;
+  background: var(--main-bg-color);
 }
 
 #contact-form {
-  background: #fff;
+  background: #23272F;
   padding: 32px 24px;
   border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
   gap: 18px;
   min-width: 320px;
   max-width: 400px;
   width: 100%;
+  border: 1px solid #23272F;
 }
 
 /* Contact Section Layout */
@@ -244,22 +312,24 @@ body, html {
   margin-bottom: 0;
   font-size: 1.05rem;
   line-height: 1.7;
+  color: #e0e0e0;
 }
 
 #contact .contact-info a {
-  color: #0078d7;
+  color: #61DAFB;
   text-decoration: none;
   word-break: break-all;
 }
 
 #contact .contact-info a:hover {
   text-decoration: underline;
+  color: #0078d7;
 }
 
 /* Headings */
 #sections h2 {
   font-family: 'Segoe UI', Arial, sans-serif;
-  color: #333;
+  color: #fff;
   font-weight: 700;
   margin-bottom: 1.2em;
   line-height: 1.2;
@@ -268,7 +338,7 @@ body, html {
 /* Paragraphs */
 #sections p {
   font-family: 'Segoe UI', Arial, sans-serif;
-  color: #444;
+  color: #b0b0b0;
   font-size: 1.08rem;
   margin-bottom: 1em;
   line-height: 1.6;
@@ -277,7 +347,7 @@ body, html {
 /* Form labels */
 #contact-form label {
   font-family: 'Segoe UI', Arial, sans-serif;
-  color: #222;
+  color: #e0e0e0;
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -287,11 +357,12 @@ body, html {
 #contact-form textarea {
   font-family: 'Segoe UI', Arial, sans-serif;
   padding: 10px 12px;
-  border: 1px solid #bbb;
+  border: 1px solid #444;
   border-radius: 6px;
   font-size: 1rem;
-  background: #f9f9f9;
-  transition: border 0.2s;
+  background: #23272F;
+  color: #e0e0e0;
+  transition: border 0.2s, background 0.2s;
   margin-bottom: 12px;
 }
 
@@ -299,6 +370,7 @@ body, html {
 #contact-form textarea:focus {
   border-color: #0078d7;
   outline: none;
+  background: #23272F;
 }
 
 /* Contact form button */
@@ -364,7 +436,7 @@ body, html {
 
 #arrows button {
   background: none;
-  color: #222;
+  color: #e0e0e0;
   border: none;
   font-size: 3rem;
   padding: 0.2em 0.7em;
@@ -390,6 +462,7 @@ body, html {
   overflow: hidden;
   margin: 0;
   padding: 0;
+  background: #181A20;
 }
 
 #sections {
@@ -399,6 +472,7 @@ body, html {
   width: 100vw;
   transition: transform 0.4s cubic-bezier(.77,0,.18,1);
   will-change: transform;
+  background: #181A20;
 }
 
 .fullpage {
@@ -411,6 +485,7 @@ body, html {
   align-items: center;
   font-size: 2rem;
   transition: background 0.5s;
+  background: #181A20;
 }
 
 .fullpage.active {
@@ -462,10 +537,20 @@ body.home-active #navbar {
   z-index: 2;
   background: linear-gradient(
     to top,
-    rgba(0,0,0,1) 0%,
-    rgba(0,0,0,1) 35%,
-    rgba(0,0,0,0.7) 60%,
-    rgba(0,0,0,0.3) 80%,
-    rgba(0,0,0,0) 100%
+    rgba(24,26,32,1) 0%,
+    rgba(24,26,32,1) 35%,
+    rgba(24,26,32,0.7) 60%,
+    rgba(24,26,32,0.3) 80%,
+    rgba(24,26,32,0) 100%
   );
+}
+
+#three-bg,
+#three-bg-gradient {
+  background: transparent !important;
+}
+
+#project-tags .tag,
+.project-card-tags .tag {
+  border-radius: 999px !important;
 }
