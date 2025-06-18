@@ -60,6 +60,8 @@ arrowRight.addEventListener('click', () => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') showSection(currentSection - 1);
   if (e.key === 'ArrowRight') showSection(currentSection + 1);
+  if (e.key === 'q') showSection(currentSection - 1);
+  if (e.key === 'd') showSection(currentSection + 1);
 });
 
 // Navbar click navigation

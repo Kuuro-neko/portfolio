@@ -1,17 +1,25 @@
+:root {
+  --main-bg-color: #070505;
+  --secondary-bg-color: #181818;
+  --red-bg-color: #140c0c;
+  --navbar-border-color: #4F1718;
+  --primary-color: #631b1d;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
-  background: #181A20;
+  background: var(--main-bg-color);
   color: #e0e0e0;
 }
 
 #root {
   color: #e0e0e0;
   font-family: Arial, sans-serif;
-  background: #181A20;
+  background: var(--main-bg-color);
 }
 
 /* Make navbar sticky below home */
@@ -20,8 +28,8 @@ body, html {
   top: 0;
   left: 0;
   width: 100vw;
-  background: #23272F;
-  border-bottom: 1px solid #23272F;
+  background: var(--red-bg-color);
+  border-bottom: 1px solid var(--navbar-border-color);
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -36,9 +44,8 @@ body, html {
   #navbar {
     top: auto;
     bottom: 0;
-    border-top: 1px solid #23272F;
+    border-top: 1px solid var(--navbar-border-color);
     border-bottom: none;
-    background: #23272F;
   }
 }
 
@@ -52,7 +59,7 @@ body, html {
 }
 
 #navbar a.active {
-  background: #0078d7;
+  background: var(--primary-color);
   color: #fff;
 }
 
@@ -67,7 +74,7 @@ body, html {
 }
 
 #about {
-  background: #181A20;
+  background: var(--main-bg-color);
 }
 
 #projects {
@@ -76,7 +83,7 @@ body, html {
   align-items: center;
   justify-content: flex-start;
   padding: 2rem 0;
-  background: #181A20;
+  background: var(--main-bg-color);
   height: 100vh;
   position: relative;
 }
@@ -86,7 +93,6 @@ body, html {
   left: 0;
   right: 0;
   z-index: 10;
-  background: #181A20;
   width: 100%;
   text-align: center;
   display: flex;
@@ -118,11 +124,18 @@ body, html {
   padding: 0.5rem 0;
 }
 
+/* Project tags */
 .tag-cpp {
-  --tag-color: #00599C;
+  --tag-color: #1067a8;
 }
 .tag-kotlin {
   --tag-color: #A97BFF;
+}
+.tag-opengl {
+  --tag-color: #b4651c;
+}
+.tag-threejs {
+  --tag-color: #157512;
 }
 .tag-react {
   --tag-color: #61DAFB;
@@ -139,8 +152,8 @@ body, html {
 }
 #project-tags .tag[data-tag="All"].active {
   color: #fff;
-  background: #0078d7;
-  border: 1.5px solid #0078d7;
+  background: var(--primary-color);
+  border: 1.5px solid var(--primary-color);
 }
 
 #project-tags .tag {
@@ -174,7 +187,6 @@ body, html {
   padding: 3rem;
   margin-bottom: 1.5rem;
   position: relative;
-  background: #181A20;
   margin-left: auto;
   margin-right: auto;
 }
@@ -203,7 +215,7 @@ body, html {
 }
 
 .project-card {
-  background: #23272F;
+  background: var(--secondary-bg-color);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.18);
   padding: 1rem;
@@ -219,7 +231,7 @@ body, html {
   transform: scale(1.045);
   box-shadow: 0 6px 24px rgba(0,0,0,0.32);
   z-index: 2;
-  border: 1.5px solid #0078d7;
+  border: 1.5px solid var(--primary-color);
 }
 
 .project-card img {
@@ -228,6 +240,7 @@ body, html {
   border-radius: 8px;
   margin-bottom: 1rem;
   background: #181A20;
+  aspect-ratio: 16 / 9;
 }
 
 .project-card h3 {
@@ -266,7 +279,7 @@ body, html {
   flex-direction: column;
   align-items: center;
   padding: 40px 0;
-  background: #181A20;
+  background: var(--main-bg-color);
 }
 
 #contact-form {
