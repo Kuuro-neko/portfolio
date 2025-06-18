@@ -2,11 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/portfolio/vite.svg" />
+    <link rel="icon" href="/portfolio/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <script type="module" crossorigin src="/portfolio/assets/index-BSTztEVH.js"></script>
-    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-ZaQ3GyER.css">
+    <meta name="description" content="Portfolio Gilles gonzalez Oropeza">
+    <meta name="keywords" content="Gilles Gonzalez Oropeza, CV, Portfolio">
+    <meta name="author" content="Gilles Gonzalez Oropeza">
+    <title>Gilles Gonzalez Oropeza</title>
+    <script type="module" crossorigin src="/portfolio/assets/index-D1RLka02.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio/assets/index-BydcSTIZ.css">
   </head>
   <body>
     <nav id="navbar">
@@ -25,7 +28,7 @@
           <canvas id="three-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;"></canvas>
           <div id="three-bg-gradient"></div>
           <p>Hi, my name is</p>
-          <h1 style="font-size:3rem; margin:0.2em 0 0.4em 0;">John Doe</h1>
+          <h1 style="font-size:3rem; margin:0.2em 0 0.4em 0;">Gilles Gonzalez Oropeza</h1>
           <p>Placeholder text</p>
         </section>
         <section id="about" class="fullpage"><h2>About</h2><p>About me content...</p></section>
@@ -34,55 +37,60 @@
           <div id="project-tags">
             <button class="tag active" data-tag="All">All</button>
             <button class="tag tag-cpp" data-tag="C++">C++</button>
+            <button class="tag tag-opengl" data-tag="Opengl">OpenGL</button>
             <button class="tag tag-kotlin" data-tag="Kotlin">Kotlin</button>
             <button class="tag tag-react" data-tag="React">React</button>
-            <button class="tag tag-python" data-tag="Python">Python</button>
+            <button class="tag tag-threejs" data-tag="Threejs">ThreeJS</button>
             <!-- Add more tags as needed -->
           </div>
-          <div id="project-grid">
-            <div class="project-card" data-tags="C++,React" data-link="https://github.com/your/project1">
-              <img src="https://placehold.co/300x150" alt="Project 1" />
-              <h3>Project One</h3>
+          <div id="project-grid" class="ps">
+            <!-- Project 1 -->
+            <div class="project-card" data-tags="C++,Opengl" data-link="https://github.com/Kuuro-neko/MinerFabriquer">
+              <img src="/portfolio/projects/minecraft.webp" alt="Minecraft clone" />
+              <h3>Minecraft clone</h3>
               <div class="project-card-tags">
                 <span class="tag tag-cpp">C++</span>
-                <span class="tag tag-react">React</span>
+                <span class="tag tag-opengl">OpenGL</span>
               </div>
-              <p>Short description of Project One.</p>
+              <p>Short description of Minecraft clone</p>
             </div>
-            <div class="project-card" data-tags="Kotlin,Android" data-link="https://github.com/your/project2">
-              <img src="https://placehold.co/300x150" alt="Project 2" />
-              <h3>Project Two</h3>
-              <div class="project-card-tags">
-                <span class="tag tag-kotlin">Kotlin</span>
-                <span class="tag tag-android">Android</span>
-              </div>
-              <p>Short description of Project Two.</p>
-            </div>
-            <div class="project-card" data-tags="Python" data-link="https://github.com/your/project3">
-              <img src="https://placehold.co/300x150" alt="Project 3" />
-              <h3>Project Three</h3>
-              <div class="project-card-tags">
-                <span class="tag tag-python">Python</span>
-              </div>
-              <p>Short description of Project Three.</p>
-            </div>
-            <!-- Dummy projects row 2 -->
-            <div class="project-card" data-tags="C++" data-link="https://github.com/your/project4">
-              <img src="https://placehold.co/300x150" alt="Project 4" />
-              <h3>Project Four</h3>
+            <!-- Project 2 -->
+            <div class="project-card" data-tags="C++" data-link="https://github.com/Kuuro-neko/Projet-mosaique-image">
+              <img src="/portfolio/projects/mosaic.webp" alt="Photo-mosaïc generator" />
+              <h3>Photo-mosaïc generator</h3>
               <div class="project-card-tags">
                 <span class="tag tag-cpp">C++</span>
               </div>
-              <p>Short description of Project Four.</p>
+              <p>Short description of Photo-mosaïc generator</p>
             </div>
-            <div class="project-card" data-tags="Kotlin" data-link="https://github.com/your/project5">
+            <!-- Project 3 -->
+            <div class="project-card" data-tags="C++" data-link="https://github.com/Kuuro-neko/HAI719-Raytracing">
+              <img src="/portfolio/projects/raytracer.webp" alt="Raytracer" />
+              <h3>Raytracer</h3>
+              <div class="project-card-tags">
+                <span class="tag tag-cpp">C++</span>
+              </div>
+              <p>Short description of Raytracer</p>
+            </div>
+            <!-- Project 4 -->
+            <div class="project-card" data-tags="Threejs" data-link="https://github.com/Akkuun/TER-Procedural-Climbing-Plant-Modeling">
+              <img src="/portfolio/projects/climbing-plants.webp" alt="Procedural climbing plants" />
+              <h3>Procedural climbing plants</h3>
+              <div class="project-card-tags">
+                <span class="tag tag-threejs">ThreeJS</span>
+              </div>
+              <p>Short description of Procedural climbing plants</p>
+            </div>
+            <!-- Project 5 -->
+            <div class="project-card" data-tags="Kotlin" data-link="https://github.com/Akkuun/Eco-Plant">
               <img src="https://placehold.co/300x150" alt="Project 5" />
-              <h3>Project Five</h3>
+              <h3>Mobile plant identification in plots</h3>
               <div class="project-card-tags">
                 <span class="tag tag-kotlin">Kotlin</span>
               </div>
-              <p>Short description of Project Five.</p>
+              <p>Short description of Mobile plant identification in plots</p>
             </div>
+            <!-- Project 6 -->
             <div class="project-card" data-tags="React" data-link="https://github.com/your/project6">
               <img src="https://placehold.co/300x150" alt="Project 6" />
               <h3>Project Six</h3>
