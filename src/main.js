@@ -1,4 +1,6 @@
 import './style.css'
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 const sections = Array.from(document.querySelectorAll('.fullpage'));
 const navLinks = [
@@ -152,3 +154,13 @@ projectCards.forEach(card => {
   });
   card.tabIndex = 0;
 });
+
+// Initialize PerfectScrollbar on project grid
+const projectGrid = document.getElementById('project-grid');
+let ps = null;
+if (projectGrid) {
+  ps = new PerfectScrollbar(projectGrid, {
+    suppressScrollX: true,
+    wheelPropagation: false
+  });
+}

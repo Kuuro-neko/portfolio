@@ -12,6 +12,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
+    "perfect-scrollbar": "^1.5.6",
     "three": "^0.177.0"
   }
 }
