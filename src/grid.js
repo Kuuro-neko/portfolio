@@ -9,7 +9,6 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
-
 const textureLoader = new THREE.TextureLoader();
 function loadTextureAsync(url) {
   return new Promise((resolve, reject) => {
@@ -37,8 +36,8 @@ export class InfiniteGrid {
     const BASE = import.meta.env.BASE_URL;
 
     const TEXTURE_PATH = `${BASE}textures/texture.png`;
-const HEIGHTMAP_PATH = `${BASE}textures/heightmap.png`;
-const METALNESS_PATH = `${BASE}textures/metalness.png`;
+    const HEIGHTMAP_PATH = `${BASE}textures/heightmap.png`;
+    const METALNESS_PATH = `${BASE}textures/metalness.png`;
 
     this.setupPostProcessing();
 
@@ -64,9 +63,9 @@ const METALNESS_PATH = `${BASE}textures/metalness.png`;
 
   setupPostProcessing() {
     this.effectComposer = new EffectComposer(this.renderer);
-    this. effectComposer.setSize(sizes.width, sizes.height);
+    this.effectComposer.setSize(sizes.width, sizes.height);
     this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
+    
     const renderPass = new RenderPass(this.scene, this.camera);
     this.effectComposer.addPass(renderPass);
 
@@ -91,6 +90,8 @@ const METALNESS_PATH = `${BASE}textures/metalness.png`;
       this.scene.remove(this.plane);
       this.plane.geometry.dispose();
       this.plane.material.dispose();
+    }
+    if (this.plane2) {
       this.scene.remove(this.plane2);
       this.plane2.geometry.dispose();
       this.plane2.material.dispose();
