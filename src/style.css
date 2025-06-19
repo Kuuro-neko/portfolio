@@ -23,6 +23,17 @@ body, html {
   background: var(--main-bg-color);
 }
 
+h1 {
+  font-size:3rem;
+  margin:0.2em 0 0.4em 0;
+  word-break: break-word;
+  width: 100%;
+}
+
+section {
+  width: 100vw;
+}
+
 /* Make navbar sticky below home */
 #navbar {
   position: fixed;
@@ -89,7 +100,7 @@ body, html {
   position: relative;
 }
 
-#projects h2, #project-tags {
+#project-tags {
   position: sticky;
   left: 0;
   right: 0;
@@ -99,6 +110,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 #projects h2 {
   top: 0;
@@ -190,6 +202,19 @@ body, html {
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  justify-items: center;
+}
+
+@media (max-width: 1500px) {
+  #project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 975px) {
+  #project-grid {
+    grid-template-columns: 1fr;
+    padding: 1.2rem;
+  }
 }
 
 /* PerfectScrollbar */
@@ -226,6 +251,7 @@ body, html {
   transition: transform 0.18s cubic-bezier(.4,1.4,.6,1), box-shadow 0.18s;
   cursor: pointer;
   border: 1px solid #23272F;
+  max-width: 350px;
 }
 
 .project-card:hover, .project-card:focus {
@@ -445,6 +471,24 @@ body, html {
   pointer-events: none;
 }
 
+@keyframes arrow-wiggle-left {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(-6px); }
+}
+
+@keyframes arrow-wiggle-right {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(6px); }
+}
+
+#arrow-left {
+  animation: arrow-wiggle-left 2.2s infinite;
+}
+
+#arrow-right {
+  animation: arrow-wiggle-right 2.2s infinite;
+}
+
 #arrows button {
   background: none;
   color: #e0e0e0;
@@ -459,6 +503,11 @@ body, html {
   transition: color 0.2s, opacity 0.2s;
   box-shadow: none;
   line-height: 1;
+}
+
+#arrows button:hover {
+  filter: brightness(1.5);
+  font-weight: 900;
 }
 
 #arrows button:disabled,
@@ -566,4 +615,14 @@ body.home-active #navbar {
 #project-tags .tag,
 .project-card-tags .tag {
   border-radius: 999px !important;
+}
+
+@media (max-width: 600px) {
+  #project-grid {
+    grid-template-columns: 1fr;
+    padding: 1.2rem;
+  }
+  #project-tags {
+    flex-wrap: wrap;
+  }
 }
