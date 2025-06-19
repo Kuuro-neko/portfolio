@@ -445,6 +445,24 @@ body, html {
   pointer-events: none;
 }
 
+@keyframes arrow-wiggle-left {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(-6px); }
+}
+
+@keyframes arrow-wiggle-right {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(6px); }
+}
+
+#arrow-left {
+  animation: arrow-wiggle-left 2.2s infinite;
+}
+
+#arrow-right {
+  animation: arrow-wiggle-right 2.2s infinite;
+}
+
 #arrows button {
   background: none;
   color: #e0e0e0;
@@ -459,6 +477,11 @@ body, html {
   transition: color 0.2s, opacity 0.2s;
   box-shadow: none;
   line-height: 1;
+}
+
+#arrows button:hover {
+  filter: brightness(1.5);
+  font-weight: 900;
 }
 
 #arrows button:disabled,
