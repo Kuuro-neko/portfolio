@@ -72,6 +72,11 @@ arrowRight.addEventListener('click', () => {
 
 // Keyboard navigation (left/right arrows)
 document.addEventListener('keydown', (e) => {
+  // Prevent arrow shortcuts if focused on a contact form input/textarea
+  const active = document.activeElement;
+  if (active && active.closest && active.closest('#contact-form') && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) {
+    return;
+  }
   if (e.key === 'ArrowLeft') showSection(currentSection - 1);
   if (e.key === 'ArrowRight') showSection(currentSection + 1);
   if (e.key === 'q') showSection(currentSection - 1);
@@ -151,6 +156,8 @@ if (contactForm) {
     contactForm.reset();
   });
 }
+
+
 
 const defaultLink = 'https://github.com';
 

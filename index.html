@@ -10,6 +10,40 @@
     <title>Gilles Gonzalez Oropeza</title>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/three.js"></script>
+    <script>
+      function extractContactFormData() {
+        const form = document.getElementById('contact-form');
+        if (!form) return null;
+        return {
+          name: form.querySelector('[name="entry.1503025077"]').value,
+          email: form.querySelector('[name="entry.1044371270"]').value,
+          message: form.querySelector('[name="entry.557231181"]').value
+        };
+      }
+
+      function sendForm() {
+        let form = new FormData();
+        const contactData = extractContactFormData();
+        if (!contactData) return;
+        form.append('entry.1503025077', contactData.name);
+        form.append('entry.1044371270', contactData.email);
+        form.append('entry.557231181', contactData.message);
+
+        const url = "https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse";
+        const options = {
+          method: 'POST',
+          mode: 'no-cors',
+          body: form
+        };
+        fetch(url, options)
+          .then(response => {
+            console.log('Form submitted successfully:', response);
+          })
+          .catch(error => {
+            console.error('Error submitting form:', error);
+          });
+      }
+    </script>
   </head>
   <body>
     <nav id="navbar">
@@ -129,17 +163,18 @@
                 <a href="tel:+1234567890">+1 234 567 890</a>
               </p>
             </div>
-            <form id="contact-form">
-              <label for="contact-name">Name</label>
-              <input type="text" id="contact-name" name="name" required />
+            <form id="contact-form" name="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+              <label for="entry.1503025077">Name</label>
+              <input type="text" name="entry.1503025077" id="entry.1503025077" placeholder="" required/>
 
-              <label for="contact-mail">Mail</label>
-              <input type="email" id="contact-mail" name="mail" required />
+              <label for="entry.1044371270">Email</label>
+              <input type="email" name="entry.1044371270" id="entry.1044371270" placeholder="" required/>
 
-              <label for="contact-message">Message</label>
-              <textarea id="contact-message" name="message" rows="5" required></textarea>
+              <label for="entry.557231181">Message</label>
+              <textarea name="entry.557231181" id="entry.557231181" placeholder="" required></textarea>
 
-              <button type="submit">Send</button>
+              <button type="submit" onclick="sendForm()">Send</button>
+              <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </form>
           </div>
         </section>

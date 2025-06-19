@@ -4,6 +4,7 @@
   --red-bg-color: #140c0c;
   --navbar-border-color: #4F1718;
   --primary-color: #631b1d;
+  --field-focus: #181616;
 }
 
 body, html {
@@ -284,7 +285,7 @@ body, html {
 }
 
 #contact-form {
-  background: #23272F;
+  background: var(--secondary-bg-color);
   padding: 32px 24px;
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.18);
@@ -361,7 +362,8 @@ body, html {
   border: 1px solid #444;
   border-radius: 6px;
   font-size: 1rem;
-  background: #23272F;
+  background: var(--secondary-bg-color);
+  filter: brightness(0.75);
   color: #e0e0e0;
   transition: border 0.2s, background 0.2s;
   margin-bottom: 12px;
@@ -369,16 +371,16 @@ body, html {
 
 #contact-form input:focus,
 #contact-form textarea:focus {
-  border-color: #0078d7;
+  border-color: var(--primary-color);
   outline: none;
-  background: #23272F;
+  background: var(--field-focus);
 }
 
 /* Contact form button */
 #contact-form button[type="submit"] {
   margin-top: 8px;
   padding: 10px 0;
-  background: #0078d7;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -387,20 +389,17 @@ body, html {
   cursor: pointer;
   transition: background 0.2s;
 }
-/*
- style="width:1.2em;vertical-align:middle;margin-right:0.4em;"
-*/
 
 .contact-svg {
   width: 1.2em;
   vertical-align: middle;
   margin-right: 0.4em;
-  fill: #e0e0e0;
-  color: #ffffff;
+  filter: invert(1) brightness(90%);
 }
 
 #contact-form button[type="submit"]:hover {
-  background: #005fa3;
+  background: var(--primary-color);
+  filter: brightness(1.15);
 }
 
 #scroll-invite {
