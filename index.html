@@ -10,6 +10,40 @@
     <title>Gilles Gonzalez Oropeza</title>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/three.js"></script>
+    <script>
+      function extractContactFormData() {
+        const form = document.getElementById('contact-form');
+        if (!form) return null;
+        return {
+          name: form.querySelector('[name="entry.1503025077"]').value,
+          email: form.querySelector('[name="entry.1044371270"]').value,
+          message: form.querySelector('[name="entry.557231181"]').value
+        };
+      }
+
+      function sendForm() {
+        let form = new FormData();
+        const contactData = extractContactFormData();
+        if (!contactData) return;
+        form.append('entry.1503025077', contactData.name);
+        form.append('entry.1044371270', contactData.email);
+        form.append('entry.557231181', contactData.message);
+
+        const url = "https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse";
+        const options = {
+          method: 'POST',
+          mode: 'no-cors',
+          body: form
+        };
+        fetch(url, options)
+          .then(response => {
+            console.log('Form submitted successfully:', response);
+          })
+          .catch(error => {
+            console.error('Error submitting form:', error);
+          });
+      }
+    </script>
   </head>
   <body>
     <nav id="navbar">
@@ -29,9 +63,9 @@
           <div id="three-bg-gradient"></div>
           <p>Hi, my name is</p>
           <h1 style="font-size:3rem; margin:0.2em 0 0.4em 0;">Gilles Gonzalez Oropeza</h1>
-          <p>Placeholder text</p>
+          <p id="typewriter"></p>
         </section>
-        <section id="about" class="fullpage"><h2>About</h2><p>About me content...</p></section>
+        <section id="about" class="fullpage"><h2>About</h2><p>Coming soon !</p></section>
         <section id="projects" class="fullpage">
           <h2>A few projects</h2>
           <div id="project-tags">
@@ -39,7 +73,7 @@
             <button class="tag tag-cpp" data-tag="C++">C++</button>
             <button class="tag tag-opengl" data-tag="Opengl">OpenGL</button>
             <button class="tag tag-kotlin" data-tag="Kotlin">Kotlin</button>
-            <button class="tag tag-react" data-tag="React">React</button>
+            <button class="tag tag-godot" data-tag="Godot">Godot</button>
             <button class="tag tag-threejs" data-tag="Threejs">ThreeJS</button>
             <!-- Add more tags as needed -->
           </div>
@@ -52,7 +86,7 @@
                 <span class="tag tag-cpp">C++</span>
                 <span class="tag tag-opengl">OpenGL</span>
               </div>
-              <p>Short description of Minecraft clone</p>
+              <p>Minecraft clone featuring real time generation with biomes, physics, projectiles and AI.</p>
             </div>
             <!-- Project 2 -->
             <div class="project-card" data-tags="C++" data-link="https://github.com/Kuuro-neko/Projet-mosaique-image">
@@ -61,7 +95,7 @@
               <div class="project-card-tags">
                 <span class="tag tag-cpp">C++</span>
               </div>
-              <p>Short description of Photo-mosaïc generator</p>
+              <p>Program with a small UI to create photo-mosaics by using your own images as dataset and one out of 3 different methods implemented.</p>
             </div>
             <!-- Project 3 -->
             <div class="project-card" data-tags="C++" data-link="https://github.com/Kuuro-neko/HAI719-Raytracing">
@@ -70,7 +104,7 @@
               <div class="project-card-tags">
                 <span class="tag tag-cpp">C++</span>
               </div>
-              <p>Short description of Raytracer</p>
+              <p>Program to render scenes by raytracing using the CPU, accelerated using a KD-tree and multithreading.</p>
             </div>
             <!-- Project 4 -->
             <div class="project-card" data-tags="Threejs" data-link="https://github.com/Akkuun/TER-Procedural-Climbing-Plant-Modeling">
@@ -79,52 +113,34 @@
               <div class="project-card-tags">
                 <span class="tag tag-threejs">ThreeJS</span>
               </div>
-              <p>Short description of Procedural climbing plants</p>
+              <p>Interactive environment allowing to grow climbing plants on top of meshes in real time.</p>
             </div>
             <!-- Project 5 -->
             <div class="project-card" data-tags="Kotlin" data-link="https://github.com/Akkuun/Eco-Plant">
-              <img src="https://placehold.co/300x150" alt="Project 5" />
+              <img src="/projects/ecoplant.webp" alt="Mobile plant identification in plots" />
               <h3>Mobile plant identification in plots</h3>
               <div class="project-card-tags">
                 <span class="tag tag-kotlin">Kotlin</span>
               </div>
-              <p>Short description of Mobile plant identification in plots</p>
+              <p>Mobile application allowing to measure multiple soil features in a plot by identifying plants growing in it using the Plantnet API.</p>
             </div>
             <!-- Project 6 -->
-            <div class="project-card" data-tags="React" data-link="https://github.com/your/project6">
-              <img src="https://placehold.co/300x150" alt="Project 6" />
-              <h3>Project Six</h3>
+            <div class="project-card" data-tags="Godot" data-link="https://github.com/Kuuro-neko/Beeclust">
+              <img src="/projects/beeclust.webp" alt="Beeclust" />
+              <h3>Beeclust</h3>
               <div class="project-card-tags">
-                <span class="tag tag-react">React</span>
+                <span class="tag tag-godot">Godot</span>
               </div>
-              <p>Short description of Project Six.</p>
+              <p>Implementation of the Beeclust algorithm, a swarm algorithm, featuring a heatmap and some cute bees.</p>
             </div>
-            <!-- Dummy projects row 3 -->
-            <div class="project-card" data-tags="Python" data-link="https://github.com/your/project7">
-              <img src="https://placehold.co/300x150" alt="Project 7" />
-              <h3>Project Seven</h3>
+            <!-- Project 7 -->
+            <div class="project-card" data-tags="Threejs" data-link="https://github.com/Kuuro-neko/portfolio">
+              <img src="" alt="Portfolio" />
+              <h3>Portfolio</h3>
               <div class="project-card-tags">
-                <span class="tag tag-python">Python</span>
+                <span class="tag tag-threejs">ThreeJS</span>
               </div>
-              <p>Short description of Project Seven.</p>
-            </div>
-            <div class="project-card" data-tags="C++,Kotlin" data-link="https://github.com/your/project8">
-              <img src="https://placehold.co/300x150" alt="Project 8" />
-              <h3>Project Eight</h3>
-              <div class="project-card-tags">
-                <span class="tag tag-cpp">C++</span>
-                <span class="tag tag-kotlin">Kotlin</span>
-              </div>
-              <p>Short description of Project Eight.</p>
-            </div>
-            <div class="project-card" data-tags="React,Python" data-link="https://github.com/your/project9">
-              <img src="https://placehold.co/300x150" alt="Project 9" />
-              <h3>Project Nine</h3>
-              <div class="project-card-tags">
-                <span class="tag tag-react">React</span>
-                <span class="tag tag-python">Python</span>
-              </div>
-              <p>Short description of Project Nine.</p>
+              <p>The website you're currently viewing !</p>
             </div>
           </div>
         </section>
@@ -134,30 +150,31 @@
           <div class="contact-container">
             <div class="contact-info">
               <p>
-                <img src="/mail_icon.svg" alt="Mail" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <img src="/mail_icon.svg" alt="Mail" class="contact-svg">
                 <strong>Mail:</strong>
                 <a href="mailto:your.email@example.com">your.email@example.com</a>
                 <br>
-                <img src="/github_icon.svg" alt="GitHub" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <img src="/github_icon.svg" alt="GitHub" class="contact-svg">
                 <strong>GitHub:</strong>
                 <a href="https://github.com/yourgithub" target="_blank">yourgithub</a>
                 <br>
-                <img src="/phone_icon.svg" alt="Phone" style="width:1.2em;vertical-align:middle;margin-right:0.4em;">
+                <img src="/phone_icon.svg" alt="Phone" class="contact-svg">
                 <strong>Phone:</strong>
                 <a href="tel:+1234567890">+1 234 567 890</a>
               </p>
             </div>
-            <form id="contact-form">
-              <label for="contact-name">Name</label>
-              <input type="text" id="contact-name" name="name" required />
+            <form id="contact-form" name="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
+              <label for="entry.1503025077">Name</label>
+              <input type="text" name="entry.1503025077" id="entry.1503025077" placeholder="" required/>
 
-              <label for="contact-mail">Mail</label>
-              <input type="email" id="contact-mail" name="mail" required />
+              <label for="entry.1044371270">Email</label>
+              <input type="email" name="entry.1044371270" id="entry.1044371270" placeholder="" required/>
 
-              <label for="contact-message">Message</label>
-              <textarea id="contact-message" name="message" rows="5" required></textarea>
+              <label for="entry.557231181">Message</label>
+              <textarea name="entry.557231181" id="entry.557231181" placeholder="" required></textarea>
 
-              <button type="submit">Send</button>
+              <button type="submit" onclick="sendForm()">Send</button>
+              <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
             </form>
           </div>
         </section>

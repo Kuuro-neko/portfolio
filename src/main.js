@@ -1,6 +1,20 @@
 import './style.css'
 import PerfectScrollbar from 'perfect-scrollbar';
+import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+const tw = new Typewriter('#typewriter', {
+  strings: [
+    'Hello',
+    'World'
+  ],
+  autoStart: true,
+  loop: true,
+  delay: 75,
+  deleteSpeed: 50,
+  cursor: '|',
+  pauseFor: 2000
+});
 
 const sections = Array.from(document.querySelectorAll('.fullpage'));
 const navLinks = [
@@ -58,6 +72,11 @@ arrowRight.addEventListener('click', () => {
 
 // Keyboard navigation (left/right arrows)
 document.addEventListener('keydown', (e) => {
+  // Prevent arrow shortcuts if focused on a contact form input/textarea
+  const active = document.activeElement;
+  if (active && active.closest && active.closest('#contact-form') && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) {
+    return;
+  }
   if (e.key === 'ArrowLeft') showSection(currentSection - 1);
   if (e.key === 'ArrowRight') showSection(currentSection + 1);
   if (e.key === 'q') showSection(currentSection - 1);
@@ -137,6 +156,8 @@ if (contactForm) {
     contactForm.reset();
   });
 }
+
+
 
 const defaultLink = 'https://github.com';
 
