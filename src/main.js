@@ -1,6 +1,20 @@
 import './style.css'
 import PerfectScrollbar from 'perfect-scrollbar';
+import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+const tw = new Typewriter('#typewriter', {
+  strings: [
+    'Hello',
+    'World'
+  ],
+  autoStart: true,
+  loop: true,
+  delay: 75,
+  deleteSpeed: 50,
+  cursor: '|',
+  pauseFor: 2000
+});
 
 const sections = Array.from(document.querySelectorAll('.fullpage'));
 const navLinks = [

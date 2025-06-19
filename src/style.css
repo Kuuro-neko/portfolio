@@ -137,7 +137,7 @@ body, html {
 .tag-threejs {
   --tag-color: #157512;
 }
-.tag-react {
+.tag-godot {
   --tag-color: #61DAFB;
 }
 .tag-python {
@@ -246,6 +246,7 @@ body, html {
 .project-card h3 {
   margin: 0.5rem 0 0.5rem 0;
   color: #fff;
+  font-size: 1.3rem;
 }
 
 /* Project card tags: styled like selectable tags, but not clickable */
@@ -386,6 +387,17 @@ body, html {
   cursor: pointer;
   transition: background 0.2s;
 }
+/*
+ style="width:1.2em;vertical-align:middle;margin-right:0.4em;"
+*/
+
+.contact-svg {
+  width: 1.2em;
+  vertical-align: middle;
+  margin-right: 0.4em;
+  fill: #e0e0e0;
+  color: #ffffff;
+}
 
 #contact-form button[type="submit"]:hover {
   background: #005fa3;
@@ -523,7 +535,9 @@ body, html {
 
 /* Hide navbar when on the HOME section only */
 body.home-active #navbar {
-  display: none !important;
+  /*display: none !important;*/
+  background: transparent !important;
+  border-bottom: none !important;
 }
 
 /* Black gradient at the bottom of the screen for the 3D canvas */
