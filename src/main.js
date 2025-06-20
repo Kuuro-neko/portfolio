@@ -5,8 +5,10 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 const tw = new Typewriter('#typewriter', {
   strings: [
-    'Hello',
-    'World'
+    'I am a computer graphics student',
+    'I am passionate about real-time 3D',
+    'I am a game developer',
+    'I am always learning something new'
   ],
   autoStart: true,
   loop: true,
