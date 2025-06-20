@@ -4,6 +4,7 @@
   --red-bg-color: #140c0c;
   --navbar-border-color: #4F1718;
   --primary-color: #631b1d;
+  --highlight-color: #8d1d21;
   --field-focus: #181616;
 }
 
@@ -151,6 +152,11 @@ section {
 #projects h2 {
   top: 0;
   padding-top: 1.5rem;
+}
+
+#projects h3 {
+  color: white;
+  text-align: center;
 }
 
 #project-tags {
@@ -408,6 +414,7 @@ section {
 
 #contact .contact-item:hover .contact-svg {
   filter: invert(1) brightness(100%);
+  scale: 1.05;
 }
 
 #contact .contact-item:hover a {

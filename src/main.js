@@ -161,7 +161,7 @@ if (contactForm) {
 
 
 
-const defaultLink = 'https://github.com';
+const defaultLink = '';
 
 projectCards.forEach(card => {
   card.style.cursor = 'pointer';
