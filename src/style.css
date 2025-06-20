@@ -12,14 +12,14 @@ body, html {
   padding: 0;
   height: 100%;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
   color: #e0e0e0;
 }
 
 #root {
   color: #e0e0e0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
 }
 
@@ -27,6 +27,7 @@ h1 {
   font-size:3rem;
   margin:0.2em 0 0.4em 0;
   word-break: break-word;
+  text-align: center;
   width: 100%;
 }
 
@@ -51,13 +52,36 @@ section {
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
-/* Move navbar to bottom on small screens, keep all other styles */
+.navbar-svg {
+  display: none;
+  width: 1.8em;
+  vertical-align: middle;
+  filter: invert(1) brightness(90%);
+}
+
 @media (max-width: 600px) {
+  .navbar-p {
+    display: none;
+  }
+
+  .navbar-svg {
+    display: block;
+  }
+
   #navbar {
     top: auto;
     bottom: 0;
-    border-top: 1px solid var(--navbar-border-color);
     border-bottom: none;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.18);
+  }
+
+  section {
+    padding-bottom: 3.5rem !important;
+  }
+
+  #arrow-left,
+  #arrow-right {
+    display: none;
   }
 }
 
@@ -70,7 +94,18 @@ section {
   transition: background 0.2s, color 0.2s;
 }
 
+#navbar a p {
+  margin: 0;
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
 #navbar a.active {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+#navbar a.active p {
   background: var(--primary-color);
   color: #fff;
 }
@@ -112,11 +147,12 @@ section {
   align-items: center;
   flex-wrap: wrap;
 }
+
 #projects h2 {
   top: 0;
   padding-top: 1.5rem;
-  padding-bottom: 0.5rem;
 }
+
 #project-tags {
   top: 3.5rem;
   padding-top: 0.5rem;
@@ -125,7 +161,6 @@ section {
 }
 
 #projects h2 {
-  margin-bottom: 1.5rem;
   color: #fff;
 }
 
@@ -335,28 +370,61 @@ section {
 }
 
 #contact .contact-info {
-  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  
+  width: 100%;
+  height: 100%;
   text-align: left;
   margin-bottom: 0;
   font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 1.5;
   color: #e0e0e0;
 }
 
-#contact .contact-info a {
-  color: #61DAFB;
-  text-decoration: none;
-  word-break: break-all;
+#contact .contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0;
 }
 
-#contact .contact-info a:hover {
-  text-decoration: underline;
-  color: #0078d7;
+.contact-svg {
+  width: 1.8em;
+  vertical-align: middle;
+  margin-right: 0.4em;
+  filter: invert(1) brightness(90%);
+}
+
+#contact .contact-info a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  word-break: break-all;
+  
+}
+
+#contact .contact-item:hover .contact-svg {
+  filter: invert(1) brightness(100%);
+}
+
+#contact .contact-item:hover a {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 600;
+}
+
+
+#navbar p {
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  margin: 0;
+  font-weight: 500;
 }
 
 /* Headings */
 #sections h2 {
-  font-family: 'Segoe UI', Arial, sans-serif;
   color: #fff;
   font-weight: 700;
   margin-bottom: 1.2em;
@@ -365,7 +433,6 @@ section {
 
 /* Paragraphs */
 #sections p {
-  font-family: 'Segoe UI', Arial, sans-serif;
   color: #b0b0b0;
   font-size: 1.08rem;
   margin-bottom: 1em;
@@ -374,7 +441,6 @@ section {
 
 /* Form labels */
 #contact-form label {
-  font-family: 'Segoe UI', Arial, sans-serif;
   color: #e0e0e0;
   font-weight: 500;
   margin-bottom: 4px;
@@ -383,7 +449,6 @@ section {
 /* Form inputs and textarea */
 #contact-form input,
 #contact-form textarea {
-  font-family: 'Segoe UI', Arial, sans-serif;
   padding: 10px 12px;
   border: 1px solid #444;
   border-radius: 6px;
@@ -414,13 +479,6 @@ section {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-}
-
-.contact-svg {
-  width: 1.2em;
-  vertical-align: middle;
-  margin-right: 0.4em;
-  filter: invert(1) brightness(90%);
 }
 
 #contact-form button[type="submit"]:hover {
@@ -615,14 +673,4 @@ body.home-active #navbar {
 #project-tags .tag,
 .project-card-tags .tag {
   border-radius: 999px !important;
-}
-
-@media (max-width: 600px) {
-  #project-grid {
-    grid-template-columns: 1fr;
-    padding: 1.2rem;
-  }
-  #project-tags {
-    flex-wrap: wrap;
-  }
 }

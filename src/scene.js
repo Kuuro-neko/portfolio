@@ -64,7 +64,7 @@ export function initScene() {
   // Fog #030101FF
   scene.fog = new THREE.Fog('#000000', 1, 2.5);
   scene.background = new THREE.Color(0x030101);
-  scene.fog.color.set(0x000000);
+  scene.fog.color.set(0x030101);
 
   // Responsive resize
   window.addEventListener('resize', () => {
