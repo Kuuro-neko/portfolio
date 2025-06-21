@@ -66,6 +66,13 @@ export function initScene() {
   scene.background = new THREE.Color(0x030101);
   scene.fog.color.set(0x030101);
 
+  const size = 0.25;
+  const circleGeometry = new THREE.CircleGeometry(size, 64);
+  const circleMaterial = new THREE.MeshBasicMaterial({ color: 0xBE5E4E, side: THREE.FrontSide });
+  const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+  circle.position.set(0, 0.0, -1);
+  scene.add(circle);
+
   // Responsive resize
   window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);

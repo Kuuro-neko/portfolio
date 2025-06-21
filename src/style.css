@@ -4,7 +4,16 @@
   --red-bg-color: #140c0c;
   --navbar-border-color: #4F1718;
   --primary-color: #631b1d;
+  --highlight-color: #8d1d21;
   --field-focus: #181616;
+  --text: #fff;
+  --text-darker: #e0e0e0;
+  --gradient0: #631b1d;
+  --gradient1: #804024;
+  --gradient2: #9C652A;
+  --gradient0-dark: #441111;
+  --gradient1-dark: #49180f;
+  --gradient2-dark: #613511;
 }
 
 body, html {
@@ -14,11 +23,18 @@ body, html {
   overflow: hidden;
   font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
-  color: #e0e0e0;
+  color: var(--text-darker);
+}
+
+/* Paragraphs */
+#sections p {
+  color: #b0b0b0;
+  font-size: 1.08rem;
+  line-height: 1.6;
 }
 
 #root {
-  color: #e0e0e0;
+  color: var(--text-darker);
   font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
 }
@@ -33,6 +49,22 @@ h1 {
 
 section {
   width: 100vw;
+  min-width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 2rem;
+  transition: background 0.5s;
+  padding-top: 5rem;
+}
+
+.description {
+  width: 70%;
+  text-align: center;
+  color: var(--text) !important;
 }
 
 /* Make navbar sticky below home */
@@ -77,6 +109,7 @@ section {
 
   section {
     padding-bottom: 3.5rem !important;
+    padding-top: 0.15rem !important;
   }
 
   #arrow-left,
@@ -86,7 +119,7 @@ section {
 }
 
 #navbar a {
-  color: #e0e0e0;
+  color: var(--text-darker);
   text-decoration: none;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -97,17 +130,17 @@ section {
 #navbar a p {
   margin: 0;
   font-weight: bold;
-  color: #e0e0e0;
+  color: var(--text-darker);
 }
 
 #navbar a.active {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--text);
 }
 
 #navbar a.active p {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--text);
 }
 
 #home {
@@ -120,16 +153,67 @@ section {
   background: transparent !important;
 }
 
-#about {
-  background: var(--main-bg-color);
+#timeline {
+  width: 85%;
+  height: 0;
+  display: block ;
+  position: relative;
+  top: 26%;
+}
+
+.timeline-element {
+  height: 25px;
+  border-radius: 50px;
+  position: absolute;
+  scale: 0.95;
+  z-index: 100000;
+}
+
+.timeline-info {
+  position: absolute;
+  border-left: 2px solid var(--text-darker);
+  z-index: -1 !important;
+  left: 10px;
+}
+
+.timeline-main .timeline-info {
+  padding-left: 10px;
+  padding-top: 25px;
+  margin-top: 25px;
+}
+
+.timeline-top .timeline-info {
+  padding-left: 10px;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  top: -109px;
+  width: 350px;
+}
+
+.timeline-info h3 {
+  color: var(--text);
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.timeline-element .timeline-year {
+  font-size: 1.2rem;
+  color: var(--text-darker);
+  font-weight: 600;
+  margin: 0;
+}
+
+.timeline-element .timeline-location {
+  font-size: 1.2rem;
+  color: var(--text-darker);
+  margin: 0;
+}
+
+.timeline-top {
+  top: -30px;
 }
 
 #projects {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 2rem 0;
   background: var(--main-bg-color);
   height: 100vh;
   position: relative;
@@ -148,9 +232,9 @@ section {
   flex-wrap: wrap;
 }
 
-#projects h2 {
-  top: 0;
-  padding-top: 1.5rem;
+#projects h3 {
+  color: var(--text);
+  text-align: center;
 }
 
 #project-tags {
@@ -161,7 +245,7 @@ section {
 }
 
 #projects h2 {
-  color: #fff;
+  color: var(--text);
 }
 
 #project-tags {
@@ -194,20 +278,20 @@ section {
 
 /* All tag keeps gray */
 #project-tags .tag[data-tag="All"] {
-  color: #e0e0e0;
+  color: var(--text-darker);
   background: #23272F;
   border: 1.5px solid #444;
 }
 #project-tags .tag[data-tag="All"].active {
-  color: #fff;
+  color: var(--text);
   background: var(--primary-color);
   border: 1.5px solid var(--primary-color);
 }
 
 #project-tags .tag {
-  color: var(--tag-color, #e0e0e0);
+  color: var(--tag-color);
   background: #23272F;
-  border: 1.5px solid var(--tag-color, #444);
+  border: 1.5px solid var(--tag-color);
   border-radius: 999px !important;
   padding: 0.2em 1em;
   font-size: 0.95rem;
@@ -219,9 +303,9 @@ section {
   align-items: center;
 }
 #project-tags .tag.active {
-  color: #fff;
-  background: var(--tag-color, #0078d7);
-  border: 1.5px solid var(--tag-color, #0078d7);
+  color: var(--text);
+  background: var(--tag-color);
+  border: 1.5px solid var(--tag-color);
 }
 
 #project-grid {
@@ -337,14 +421,6 @@ section {
 }
 
 /* Contact Section Styles */
-#contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 0;
-  background: var(--main-bg-color);
-}
-
 #contact-form {
   background: var(--secondary-bg-color);
   padding: 32px 24px;
@@ -400,7 +476,7 @@ section {
 }
 
 #contact .contact-info a {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-darker);
   text-decoration: none;
   word-break: break-all;
   
@@ -408,40 +484,33 @@ section {
 
 #contact .contact-item:hover .contact-svg {
   filter: invert(1) brightness(100%);
+  scale: 1.05;
 }
 
 #contact .contact-item:hover a {
-  color: rgba(255, 255, 255, 1);
+  color: var(--text);
   font-weight: 600;
 }
 
 
 #navbar p {
   font-size: 1.1rem;
-  color: #e0e0e0;
+  color: var(--text-darker);
   margin: 0;
   font-weight: 500;
 }
 
 /* Headings */
 #sections h2 {
-  color: #fff;
+  color: var(--text);
   font-weight: 700;
   margin-bottom: 1.2em;
   line-height: 1.2;
 }
 
-/* Paragraphs */
-#sections p {
-  color: #b0b0b0;
-  font-size: 1.08rem;
-  margin-bottom: 1em;
-  line-height: 1.6;
-}
-
 /* Form labels */
 #contact-form label {
-  color: #e0e0e0;
+  color: var(--text-darker);
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -455,7 +524,7 @@ section {
   font-size: 1rem;
   background: var(--secondary-bg-color);
   filter: brightness(0.75);
-  color: #e0e0e0;
+  color: var(--text-darker);
   transition: border 0.2s, background 0.2s;
   margin-bottom: 12px;
 }
@@ -472,7 +541,7 @@ section {
   margin-top: 8px;
   padding: 10px 0;
   background: var(--primary-color);
-  color: #fff;
+  color: var(--text-darker);
   border: none;
   border-radius: 6px;
   font-size: 1.1rem;
@@ -483,6 +552,7 @@ section {
 
 #contact-form button[type="submit"]:hover {
   background: var(--primary-color);
+  color: var(--text);
   filter: brightness(1.15);
 }
 
@@ -505,8 +575,8 @@ section {
   display: block;
   width: 32px;
   height: 32px;
-  border-left: 4px solid #fff;
-  border-bottom: 4px solid #fff;
+  border-left: 4px solid var(--text);
+  border-bottom: 4px solid var(--text);
   transform: rotate(-45deg);
   animation: bounce 1.2s infinite;
 }
@@ -549,7 +619,7 @@ section {
 
 #arrows button {
   background: none;
-  color: #e0e0e0;
+  color: var(--text-darker);
   border: none;
   font-size: 3rem;
   padding: 0.2em 0.7em;
@@ -580,7 +650,7 @@ section {
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background: #181A20;
+  background: var(--main-bg-color);
 }
 
 #sections {
@@ -590,20 +660,6 @@ section {
   width: 100vw;
   transition: transform 0.4s cubic-bezier(.77,0,.18,1);
   will-change: transform;
-  background: #181A20;
-}
-
-.fullpage {
-  min-width: 100vw;
-  height: 100vh;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  transition: background 0.5s;
-  background: #181A20;
 }
 
 .fullpage.active {
