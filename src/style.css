@@ -62,6 +62,7 @@ body, html {
   height: 100%;
   overflow: hidden;
   background: var(--main-bg-color);
+  transition: background 0.5s ease-in-out;
   color: var(--text-darker);
 }
 
@@ -176,7 +177,6 @@ section {
 }
 
 #navbar a.active p {
-  background: var(--primary-color);
   color: var(--text);
 }
 

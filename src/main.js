@@ -193,6 +193,7 @@ if (projectGrid) {
 
 // Theme switch button logic
 const themeToggle = document.getElementById('theme-toggle');
+const svgContainer = document.getElementById('svg-theme');
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     const body = document.body;
@@ -200,19 +201,19 @@ if (themeToggle) {
     if (isDark) {
       body.classList.remove('dark-theme');
       body.classList.add('light-theme');
-      themeToggle.textContent = '🌞';
+      svgContainer.src = "/svg/sun.svg";
       changeTheme && changeTheme('light');
     } else {
       body.classList.remove('light-theme');
       body.classList.add('dark-theme');
-      themeToggle.textContent = '🌙';
+      svgContainer.src = "/svg/moon.svg";
       changeTheme && changeTheme('dark');
     }
   });
   // Set initial icon
   if (document.body.classList.contains('dark-theme')) {
-    themeToggle.textContent = '🌙';
+    svgContainer.src = "/svg/moon.svg";
   } else {
-    themeToggle.textContent = '🌞';
+    svgContainer.src = "/svg/sun.svg";
   }
 }
