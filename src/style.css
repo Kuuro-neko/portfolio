@@ -16,12 +16,15 @@
   --gradient2-dark: #613511;
 }
 
+* {
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
-  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
   color: var(--text-darker);
 }
@@ -35,7 +38,6 @@ body, html {
 
 #root {
   color: var(--text-darker);
-  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
 }
 
@@ -512,7 +514,7 @@ section {
 /* Contact Section Layout */
 #contact .contact-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   gap: 2.5rem;
   width: 100%;
@@ -524,8 +526,6 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
-  
   width: 100%;
   height: 100%;
   text-align: left;
@@ -533,13 +533,19 @@ section {
   font-size: 1.05rem;
   line-height: 1.5;
   color: #e0e0e0;
+  padding: 0 24px;
 }
 
 #contact .contact-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
   margin: 1.5rem 0;
+}
+
+.contact-item > a {
+  padding-left: 10px;
 }
 
 .contact-svg {
@@ -566,6 +572,23 @@ section {
   font-weight: 600;
 }
 
+@media screen and (max-width: 1000px) {
+  #contact .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #contact .contact-info {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    padding: 0 24px;
+    width: auto !important;
+  }
+  .contact-item {
+    width: 50% !important;
+    align-items: center;
+  }
+}
 
 #navbar p {
   font-size: 1.1rem;
