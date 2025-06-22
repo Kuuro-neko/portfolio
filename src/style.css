@@ -1,6 +1,7 @@
-:root {
+body.dark-theme {
   --main-bg-color: #070505;
   --secondary-bg-color: #181818;
+  --tag-bg-color: #23272F;
   --red-bg-color: #140c0c;
   --navbar-border-color: #4F1718;
   --primary-color: #631b1d;
@@ -16,26 +17,64 @@
   --gradient2-dark: #613511;
 }
 
+body.light-theme {
+  --main-bg-color: #f8f8f8;
+  --secondary-bg-color: #ffffff;
+  --tag-bg-color: #f0f0f0;
+  --red-bg-color: #fbeaea;
+  --navbar-border-color: #e0bcbc;
+  --primary-color: #c94a4a;
+  --highlight-color: #e57373;
+  --field-focus: #f3eaea;
+  --text: #222;
+  --text-darker: #444;
+  --gradient0: #c94a4a;
+  --gradient1: #e6a86a;
+  --gradient2: #ffe08a;
+  --gradient0-dark: #b03a3a;
+  --gradient1-dark: #e6c1a6;
+  --gradient2-dark: #e6d1a6;
+}
+
+.dark-theme .navbar-svg, .dark-theme .contact-svg {
+  filter: invert(1) brightness(90%);
+}
+
+.light-theme .navbar-svg, .light-theme .contact-svg {
+  filter: invert(0) brightness(90%);
+}
+
+.dark-theme #contact .contact-item:hover .contact-svg {
+  filter: invert(1) brightness(100%);
+}
+
+.light-theme #contact .contact-item:hover .contact-svg {
+  filter: invert(0) brightness(100%);
+}
+
+* {
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
-  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
+  transition: background 0.5s ease-in-out;
   color: var(--text-darker);
 }
 
 /* Paragraphs */
 #sections p {
-  color: #b0b0b0;
+  color: var(--text-darker);
   font-size: 1.08rem;
   line-height: 1.6;
 }
 
 #root {
   color: var(--text-darker);
-  font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--main-bg-color);
 }
 
@@ -76,7 +115,7 @@ section {
   background: var(--red-bg-color);
   border-bottom: 1px solid var(--navbar-border-color);
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   gap: 2rem;
   padding: 1rem 0;
   z-index: 2000;
@@ -88,7 +127,6 @@ section {
   display: none;
   width: 1.8em;
   vertical-align: middle;
-  filter: invert(1) brightness(90%);
 }
 
 @media (max-width: 600px) {
@@ -139,7 +177,6 @@ section {
 }
 
 #navbar a.active p {
-  background: var(--primary-color);
   color: var(--text);
 }
 
@@ -353,7 +390,7 @@ section {
 /* All tag keeps gray */
 #project-tags .tag[data-tag="All"] {
   color: var(--text-darker);
-  background: #23272F;
+  background: var(--tag-bg-color);
   border: 1.5px solid #444;
 }
 #project-tags .tag[data-tag="All"].active {
@@ -364,7 +401,7 @@ section {
 
 #project-tags .tag {
   color: var(--tag-color);
-  background: #23272F;
+  background: var(--tag-bg-color);
   border: 1.5px solid var(--tag-color);
   border-radius: 999px !important;
   padding: 0.2em 1em;
@@ -471,9 +508,9 @@ section {
 
 /* Project card tags: styled like selectable tags, but not clickable */
 .project-card-tags .tag {
-  color: var(--tag-color, #e0e0e0);
-  background: #23272F;
-  border: 1.5px solid var(--tag-color, #444);
+  color: var(--tag-color);
+  background: var(--tag-bg-color);
+  border: 1.5px solid var(--tag-color);
   border-radius: 20px;
   padding: 0.2em 1em;
   font-size: 0.95rem;
@@ -512,7 +549,7 @@ section {
 /* Contact Section Layout */
 #contact .contact-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   gap: 2.5rem;
   width: 100%;
@@ -524,29 +561,32 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
-  
   width: 100%;
   height: 100%;
   text-align: left;
   margin-bottom: 0;
   font-size: 1.05rem;
   line-height: 1.5;
-  color: #e0e0e0;
+  color: var(--text-darker);
+  padding: 0 24px;
 }
 
 #contact .contact-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
   margin: 1.5rem 0;
+}
+
+.contact-item > a {
+  padding-left: 10px;
 }
 
 .contact-svg {
   width: 1.8em;
   vertical-align: middle;
   margin-right: 0.4em;
-  filter: invert(1) brightness(90%);
 }
 
 #contact .contact-info a {
@@ -557,7 +597,6 @@ section {
 }
 
 #contact .contact-item:hover .contact-svg {
-  filter: invert(1) brightness(100%);
   scale: 1.05;
 }
 
@@ -566,6 +605,23 @@ section {
   font-weight: 600;
 }
 
+@media screen and (max-width: 1000px) {
+  #contact .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #contact .contact-info {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    padding: 0 24px;
+    width: auto !important;
+  }
+  .contact-item {
+    width: 50% !important;
+    align-items: center;
+  }
+}
 
 #navbar p {
   font-size: 1.1rem;
@@ -769,11 +825,11 @@ section {
   pointer-events: none;
 }
 
-/* Hide navbar when on the HOME section only */
+/* Navbar when on home section */
 body.home-active #navbar {
-  /*display: none !important;*/
   background: transparent !important;
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 /* Black gradient at the bottom of the screen for the 3D canvas */
@@ -785,19 +841,14 @@ body.home-active #navbar {
   height: 20vh;
   pointer-events: none;
   z-index: 2;
-  background: linear-gradient(
+  /*background: linear-gradient(
     to top,
     rgba(24,26,32,1) 0%,
     rgba(24,26,32,1) 35%,
     rgba(24,26,32,0.7) 60%,
     rgba(24,26,32,0.3) 80%,
     rgba(24,26,32,0) 100%
-  );
-}
-
-#three-bg,
-#three-bg-gradient {
-  background: transparent !important;
+  );*/
 }
 
 #project-tags .tag,
