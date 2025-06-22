@@ -125,7 +125,7 @@ export class InfiniteGrid {
     this.plane.rotation.x = -Math.PI / 2;
     this.plane.position.set(0, -0.0, 0);
 
-    this.plane2 = new THREE.Mesh(geometry, material);
+    this.plane2 = new THREE.Mesh(geometry, material.clone());
     this.plane2.rotation.x = -Math.PI / 2;
     this.plane2.position.set(0, -0.0, -2);
 
@@ -153,7 +153,6 @@ export class InfiniteGrid {
 
   resize() {
     this.setupPostProcessing();
-    this.createPlanes(false);
   }
 
   animate() {
@@ -167,13 +166,13 @@ export class InfiniteGrid {
 
   render() {
     //this.renderer.render(this.scene, this.camera);
-
     this.effectComposer.render();
   }
 
   changeTheme(newTheme) {
     if (this.theme === newTheme) return;
     this.theme = newTheme;
+    if (!this.plane || !this.plane2) return;
     if (this.theme === 'dark') {
       this.plane.material.map = this.texture;
       this.plane2.material.map = this.texture;
