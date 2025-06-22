@@ -27,7 +27,7 @@ body.light-theme {
   --highlight-color: #e57373;
   --field-focus: #f3eaea;
   --text: #222;
-  --text-darker: #444;
+  --text-darker: #000;
   --gradient0: #c94a4a;
   --gradient1: #e6a86a;
   --gradient2: #ffe08a;
@@ -717,10 +717,19 @@ section h2 {
   border-radius: 6px;
   font-size: 1rem;
   background: var(--secondary-bg-color);
-  filter: brightness(0.75);
   color: var(--text-darker);
   transition: border 0.2s, background 0.2s;
   margin-bottom: 12px;
+}
+
+.dark-theme #contact-form input,
+.dark-theme #contact-form textarea {
+  filter: brightness(0.75);
+}
+
+.light-theme #contact-form input,
+.light-theme #contact-form textarea {
+  filter: brightness(0.9);
 }
 
 #contact-form input:focus,
