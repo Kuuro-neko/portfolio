@@ -233,6 +233,19 @@ section {
   z-index: 100000;
 }
 
+#timeline-arrow {
+  width: 0; 
+  height: 0;
+  border-radius: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 30px solid var(--gradient2);
+  position: absolute;
+  left: 98%;
+  top: -17px;
+  z-index: 100001;
+}
+
 .timeline-info {
   position: absolute;
   border-left: 2px solid var(--text-darker);
@@ -339,6 +352,16 @@ section h2 {
   }
   section h2 {
     margin-bottom: 0;
+  }
+
+  #timeline-arrow {
+    width: 0 !important; 
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 30px solid var(--gradient2);
+    left: -18px;
+    top: 95%;
   }
 }
 
