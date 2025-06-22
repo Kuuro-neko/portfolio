@@ -1,6 +1,7 @@
-:root {
+body.dark-theme {
   --main-bg-color: #070505;
   --secondary-bg-color: #181818;
+  --tag-bg-color: #23272F;
   --red-bg-color: #140c0c;
   --navbar-border-color: #4F1718;
   --primary-color: #631b1d;
@@ -14,6 +15,41 @@
   --gradient0-dark: #441111;
   --gradient1-dark: #49180f;
   --gradient2-dark: #613511;
+}
+
+body.light-theme {
+  --main-bg-color: #f8f8f8;
+  --secondary-bg-color: #ffffff;
+  --tag-bg-color: #f0f0f0;
+  --red-bg-color: #fbeaea;
+  --navbar-border-color: #e0bcbc;
+  --primary-color: #c94a4a;
+  --highlight-color: #e57373;
+  --field-focus: #f3eaea;
+  --text: #222;
+  --text-darker: #444;
+  --gradient0: #c94a4a;
+  --gradient1: #e6a86a;
+  --gradient2: #ffe08a;
+  --gradient0-dark: #b03a3a;
+  --gradient1-dark: #e6c1a6;
+  --gradient2-dark: #e6d1a6;
+}
+
+.dark-theme .navbar-svg, .dark-theme .contact-svg {
+  filter: invert(1) brightness(90%);
+}
+
+.light-theme .navbar-svg, .light-theme .contact-svg {
+  filter: invert(0) brightness(90%);
+}
+
+.dark-theme #contact .contact-item:hover .contact-svg {
+  filter: invert(1) brightness(100%);
+}
+
+.light-theme #contact .contact-item:hover .contact-svg {
+  filter: invert(0) brightness(100%);
 }
 
 * {
@@ -31,7 +67,7 @@ body, html {
 
 /* Paragraphs */
 #sections p {
-  color: #b0b0b0;
+  color: var(--text-darker);
   font-size: 1.08rem;
   line-height: 1.6;
 }
@@ -90,7 +126,6 @@ section {
   display: none;
   width: 1.8em;
   vertical-align: middle;
-  filter: invert(1) brightness(90%);
 }
 
 @media (max-width: 600px) {
@@ -355,7 +390,7 @@ section {
 /* All tag keeps gray */
 #project-tags .tag[data-tag="All"] {
   color: var(--text-darker);
-  background: #23272F;
+  background: var(--tag-bg-color);
   border: 1.5px solid #444;
 }
 #project-tags .tag[data-tag="All"].active {
@@ -366,7 +401,7 @@ section {
 
 #project-tags .tag {
   color: var(--tag-color);
-  background: #23272F;
+  background: var(--tag-bg-color);
   border: 1.5px solid var(--tag-color);
   border-radius: 999px !important;
   padding: 0.2em 1em;
@@ -473,9 +508,9 @@ section {
 
 /* Project card tags: styled like selectable tags, but not clickable */
 .project-card-tags .tag {
-  color: var(--tag-color, #e0e0e0);
-  background: #23272F;
-  border: 1.5px solid var(--tag-color, #444);
+  color: var(--tag-color);
+  background: var(--tag-bg-color);
+  border: 1.5px solid var(--tag-color);
   border-radius: 20px;
   padding: 0.2em 1em;
   font-size: 0.95rem;
@@ -532,7 +567,7 @@ section {
   margin-bottom: 0;
   font-size: 1.05rem;
   line-height: 1.5;
-  color: #e0e0e0;
+  color: var(--text-darker);
   padding: 0 24px;
 }
 
@@ -552,7 +587,6 @@ section {
   width: 1.8em;
   vertical-align: middle;
   margin-right: 0.4em;
-  filter: invert(1) brightness(90%);
 }
 
 #contact .contact-info a {
@@ -563,7 +597,6 @@ section {
 }
 
 #contact .contact-item:hover .contact-svg {
-  filter: invert(1) brightness(100%);
   scale: 1.05;
 }
 
