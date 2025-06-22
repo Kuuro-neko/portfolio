@@ -193,7 +193,8 @@ if (projectGrid) {
 
 // Theme switch button logic
 const themeToggle = document.getElementById('theme-toggle');
-const svgContainer = document.getElementById('svg-theme');
+const moonSVG = document.getElementById('svg-moon');
+const sunSVG = document.getElementById('svg-sun');
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     const body = document.body;
@@ -201,19 +202,23 @@ if (themeToggle) {
     if (isDark) {
       body.classList.remove('dark-theme');
       body.classList.add('light-theme');
-      svgContainer.src = "/svg/sun.svg";
+      moonSVG.style.display = 'none';
+      sunSVG.style.display = 'block';
       changeTheme && changeTheme('light');
     } else {
       body.classList.remove('light-theme');
       body.classList.add('dark-theme');
-      svgContainer.src = "/svg/moon.svg";
+      moonSVG.style.display = 'block';
+      sunSVG.style.display = 'none';
       changeTheme && changeTheme('dark');
     }
   });
   // Set initial icon
   if (document.body.classList.contains('dark-theme')) {
-    svgContainer.src = "/svg/moon.svg";
+    moonSVG.style.display = 'block';
+    sunSVG.style.display = 'none';
   } else {
-    svgContainer.src = "/svg/sun.svg";
+    moonSVG.style.display = 'none';
+    sunSVG.style.display = 'block';
   }
 }
