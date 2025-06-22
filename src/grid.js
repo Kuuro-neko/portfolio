@@ -9,6 +9,16 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { RGBShiftShader } from "three/examples/jsm/shaders/RGBShiftShader.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
+const roughness = {
+  dark : 0.5,
+  light : 0.95
+}
+
+const metalness = {
+  dark : 0.96,
+  light : -0.26
+}
+
 const textureLoader = new THREE.TextureLoader();
 function loadTextureAsync(url) {
   return new Promise((resolve, reject) => {
@@ -21,6 +31,7 @@ export class InfiniteGrid {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
+    this.theme = "dark";
 
     this.speed = 0.15;
     this.lastTime = performance.now();
@@ -36,6 +47,7 @@ export class InfiniteGrid {
     const BASE = import.meta.env.BASE_URL;
 
     const TEXTURE_PATH = `${BASE}textures/texture.png`;
+    const TEXTURE_LIGHT_PATH = `${BASE}textures/texture_light.png`;
     const HEIGHTMAP_PATH = `${BASE}textures/heightmap.png`;
     const METALNESS_PATH = `${BASE}textures/metalness.png`;
 
@@ -43,10 +55,12 @@ export class InfiniteGrid {
 
     Promise.all([
       loadTextureAsync(TEXTURE_PATH),
+      loadTextureAsync(TEXTURE_LIGHT_PATH),
       loadTextureAsync(HEIGHTMAP_PATH),
       loadTextureAsync(METALNESS_PATH)
-    ]).then(([texture, heightmap, metalness]) => {
+    ]).then(([texture, textureLight, heightmap, metalness]) => {
       this.texture = texture;
+      this.textureLight = textureLight;
       this.heightmap = heightmap;
       this.metalness = metalness;
       this.createPlanes();
@@ -103,8 +117,8 @@ export class InfiniteGrid {
         displacementMap: this.heightmap,
         displacementScale: 0.4,
         metalnessMap: this.metalness,
-        metalness: 0.96,
-        roughness: 0.5,
+        metalness: metalness.dark,
+        roughness: roughness.dark,
     });
     
     this.plane = new THREE.Mesh(geometry, material);
@@ -155,5 +169,27 @@ export class InfiniteGrid {
     //this.renderer.render(this.scene, this.camera);
 
     this.effectComposer.render();
+  }
+
+  changeTheme(newTheme) {
+    if (this.theme === newTheme) return;
+    this.theme = newTheme;
+    if (this.theme === 'dark') {
+      this.plane.material.map = this.texture;
+      this.plane2.material.map = this.texture;
+      this.plane.material.metalness = metalness.dark;
+      this.plane2.material.metalness = metalness.dark;
+      this.plane.material.roughness = roughness.dark;
+      this.plane2.material.roughness = roughness.dark;
+    } else if (this.theme === 'light') {
+      this.plane.material.map = this.textureLight;
+      this.plane2.material.map = this.textureLight;
+      this.plane.material.metalness = metalness.light;
+      this.plane2.material.metalness = metalness.light;
+      this.plane.material.roughness = roughness.light;
+      this.plane2.material.roughness = roughness.light;
+    }
+    this.plane.material.needsUpdate = true;
+    this.plane2.material.needsUpdate = true;
   }
 }

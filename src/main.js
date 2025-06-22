@@ -2,6 +2,7 @@ import './style.css'
 import PerfectScrollbar from 'perfect-scrollbar';
 import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import { changeTheme } from './scene.js';
 
 const tw = new Typewriter('#typewriter', {
   strings: [
@@ -188,4 +189,30 @@ if (projectGrid) {
     suppressScrollX: true,
     wheelPropagation: false
   });
+}
+
+// Theme switch button logic
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const body = document.body;
+    const isDark = body.classList.contains('dark-theme');
+    if (isDark) {
+      body.classList.remove('dark-theme');
+      body.classList.add('light-theme');
+      themeToggle.textContent = '🌞';
+      changeTheme && changeTheme('light');
+    } else {
+      body.classList.remove('light-theme');
+      body.classList.add('dark-theme');
+      themeToggle.textContent = '🌙';
+      changeTheme && changeTheme('dark');
+    }
+  });
+  // Set initial icon
+  if (document.body.classList.contains('dark-theme')) {
+    themeToggle.textContent = '🌙';
+  } else {
+    themeToggle.textContent = '🌞';
+  }
 }

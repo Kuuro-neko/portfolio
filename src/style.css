@@ -114,7 +114,7 @@ section {
   background: var(--red-bg-color);
   border-bottom: 1px solid var(--navbar-border-color);
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   gap: 2rem;
   padding: 1rem 0;
   z-index: 2000;
@@ -825,11 +825,11 @@ section {
   pointer-events: none;
 }
 
-/* Hide navbar when on the HOME section only */
+/* Navbar when on home section */
 body.home-active #navbar {
-  /*display: none !important;*/
   background: transparent !important;
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 /* Black gradient at the bottom of the screen for the 3D canvas */
@@ -841,19 +841,14 @@ body.home-active #navbar {
   height: 20vh;
   pointer-events: none;
   z-index: 2;
-  background: linear-gradient(
+  /*background: linear-gradient(
     to top,
     rgba(24,26,32,1) 0%,
     rgba(24,26,32,1) 35%,
     rgba(24,26,32,0.7) 60%,
     rgba(24,26,32,0.3) 80%,
     rgba(24,26,32,0) 100%
-  );
-}
-
-#three-bg,
-#three-bg-gradient {
-  background: transparent !important;
+  );*/
 }
 
 #project-tags .tag,
