@@ -52,15 +52,11 @@ body.light-theme {
   filter: invert(0) brightness(100%);
 }
 
-@media screen and (max-width: 600px) {
-  #i {
-    display: none;
-  }
-  #theme-toggle {
-    position: absolute;
-    top: -89vh;
-    right: -1rem;
-  }
+#theme-toggle {
+  position: absolute;
+  top: 18px;
+  right: -10px;
+  z-index: 10000;
 }
 
 * {
@@ -124,7 +120,7 @@ section {
   justify-content: center;
   gap: 2rem;
   padding: 1rem 0;
-  z-index: 2000;
+  z-index: 1000;
   transition: top 0.3s, bottom 0.3s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
@@ -225,7 +221,7 @@ section {
   border-radius: 50px;
   position: absolute;
   scale: 0.95;
-  z-index: 100000;
+  z-index: 2000;
 }
 
 #timeline-arrow {
