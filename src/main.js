@@ -154,9 +154,19 @@ const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    // You can add your form handling logic here (e.g., send to API, show a message, etc.)
-    alert('Thank you for your message!');
     contactForm.reset();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    if (btn) {
+      const originalText = btn.textContent;
+      btn.textContent = 'Sent !';
+      btn.style.backgroundColor = 'var(--navbar-border-color)';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.backgroundColor = 'var(--primary-color)';
+        btn.disabled = false;
+      }, 4000);
+    }
   });
 }
 
