@@ -36,11 +36,11 @@ body.light-theme {
   --gradient2-dark: #e6d1a6;
 }
 
-.dark-theme .navbar-svg, .dark-theme .contact-svg {
+.dark-theme .navbar-svg, .dark-theme .contact-svg, .dark-theme .theme-svg {
   filter: invert(1) brightness(90%);
 }
 
-.light-theme .navbar-svg, .light-theme .contact-svg {
+.light-theme .navbar-svg, .light-theme .contact-svg, .light-theme .theme-svg {
   filter: invert(0) brightness(90%);
 }
 
@@ -180,6 +180,12 @@ section {
 
 #navbar a.active p {
   color: var(--text);
+}
+
+.theme-svg {
+  width: 1.8em;
+  vertical-align: middle;
+  margin-right: 0.4em;
 }
 
 #home {
@@ -356,8 +362,6 @@ section h2 {
   }
 }
 
-
-
 @media (max-width: 750px) {
   .timeline-info h3 {
     font-size: 1rem;
@@ -382,6 +386,16 @@ section h2 {
     left: -220px;
     width: 180px;
   }
+
+  section h2 {
+    margin-top: 1rem  !important;
+  }
+
+  .theme-svg {
+    width: 1.4em;
+    vertical-align: middle;
+    margin-right: 0.4em;
+  }
 }
 
 @media (max-width: 480px) {
@@ -400,12 +414,6 @@ section h2 {
   .description {
     font-size: 0.96rem !important;
   }
-}
-
-#projects {
-  background: var(--main-bg-color);
-  height: 100vh;
-  position: relative;
 }
 
 #project-tags {
@@ -906,33 +914,33 @@ section h2 {
   will-change: transform;
 }
 
-.fullpage.active {
+section.active {
   opacity: 1;
   pointer-events: auto;
   z-index: 2;
   transform: translateX(0);
 }
 
-.fullpage.slide-in-left {
+section.slide-in-left {
   opacity: 1;
   z-index: 2;
   transform: translateX(-100vw);
 }
 
-.fullpage.slide-in-right {
+section.slide-in-right {
   opacity: 1;
   z-index: 2;
   transform: translateX(100vw);
 }
 
-.fullpage.slide-out-left {
+section.slide-out-left {
   opacity: 1;
   z-index: 1;
   transform: translateX(-100vw);
   pointer-events: none;
 }
 
-.fullpage.slide-out-right {
+section.slide-out-right {
   opacity: 1;
   z-index: 1;
   transform: translateX(100vw);
@@ -955,14 +963,21 @@ body.home-active #navbar {
   height: 20vh;
   pointer-events: none;
   z-index: 2;
-  /*background: linear-gradient(
+}
+
+.dark-theme #three-bg-gradient {
+  background: linear-gradient(
     to top,
-    rgba(24,26,32,1) 0%,
-    rgba(24,26,32,1) 35%,
-    rgba(24,26,32,0.7) 60%,
-    rgba(24,26,32,0.3) 80%,
-    rgba(24,26,32,0) 100%
-  );*/
+    rgb(3, 1, 1) 0%,
+    rgba(3, 1, 1, 1) 35%,
+    rgba(3, 1, 1, 0.7) 65%,
+    rgba(3, 1, 1, 0.3) 80%,
+    rgba(3, 1, 1, 0) 100%
+  );
+}
+
+.light-theme #three-bg-gradient {
+  background: transparent;
 }
 
 #project-tags .tag,

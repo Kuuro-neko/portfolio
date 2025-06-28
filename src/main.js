@@ -19,7 +19,7 @@ const tw = new Typewriter('#typewriter', {
   pauseFor: 2000
 });
 
-const sections = Array.from(document.querySelectorAll('.fullpage'));
+const sections = Array.from(document.querySelectorAll('section'));
 const navLinks = [
   document.getElementById('nav-home'),
   document.getElementById('nav-about'),
@@ -149,7 +149,7 @@ tagButtons.forEach(btn => {
   });
 });
 
-// Contact form submission (basic example)
+// Contact form submission
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {

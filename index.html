@@ -47,8 +47,8 @@
   </head>
   <body class="dark-theme">
       <button id="theme-toggle" aria-label="Toggle theme" style="margin-left:auto;margin-right:1rem;background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--text-darker);">
-        <img id="svg-moon" src="/svg/moon.svg" alt="Toggle theme" class="contact-svg">
-        <img id="svg-sun" src="/svg/sun.svg" alt="Toggle theme" class="contact-svg">
+        <img id="svg-moon" src="/svg/moon.svg" alt="Toggle theme" class="theme-svg">
+        <img id="svg-sun" src="/svg/sun.svg" alt="Toggle theme" class="theme-svg">
       </button>
     <nav id="navbar">
       <a href="#home" id="nav-home">
@@ -74,14 +74,14 @@
     </div>
     <div id="root">
       <div id="sections">
-        <section id="home" class="fullpage">
+        <section id="home">
           <canvas id="three-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;"></canvas>
           <div id="three-bg-gradient"></div>
           <p>Hi, my name is</p>
           <h1>Gilles Gonzalez Oropeza</h1>
           <p id="typewriter"></p>
         </section>
-        <section id="about" class="fullpage">
+        <section id="about">
           <h2>About me</h2>
           <p class="description">
             I am currently studying at the <strong>University of Montpellier</strong>, pursuing a <strong>Master's degree in image processing and computer graphics</strong>. I'm also looking for a <strong>6-month internship starting in late January 2026</strong> !
@@ -119,7 +119,7 @@
             </div>
           </div>
         </section>
-        <section id="projects" class="fullpage">
+        <section id="projects">
           <h2>A few projects</h2>
           <div id="project-tags">
             <button class="tag active" data-tag="All">All</button>
@@ -196,7 +196,7 @@
             </div>
           </div>
         </section>
-        <section class="fullpage" id="contact">
+        <section id="contact">
           <h2>Contact me !</h2>
           <div class="contact-container">
             <form id="contact-form" name="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSczy0KYTaNPyorqo6c1DnJ3fn0t9aWaqhCcsl-wzO-jl9rk8g/formResponse?" target="hidden_iframe" onsubmit="submitted=true;">
