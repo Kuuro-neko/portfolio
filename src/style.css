@@ -997,3 +997,146 @@ body.home-active #navbar {
 .project-card-tags .tag {
   border-radius: 999px !important;
 }
+
+/* Tutorial overlay styles */
+#tutorial-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background: var(--secondary-bg-color);
+  border: 1px solid var(--navbar-border-color);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+  padding: 16px 20px 12px 20px;
+  z-index: 1000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  max-width: 380px;
+  min-width: 280px;
+  opacity: 0.85;
+  transition: transform 0.4s ease-out, opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.light-theme #tutorial-overlay {
+  border-color: var(--primary-color);
+}
+
+#tutorial-overlay.tutorial-show {
+  transform: translateX(-50%) translateY(0);
+}
+
+#tutorial-overlay.tutorial-hide {
+  transform: translateX(-50%) translateY(100%);
+}
+
+#tutorial-overlay.tutorial-minimized {
+  transform: translateX(-50%) translateY(85%);
+}
+
+/* Only apply transparency effect in dark mode */
+.dark-theme #tutorial-overlay.tutorial-home-transparent {
+  background: color-mix(in srgb, var(--secondary-bg-color) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--navbar-border-color) 10%, transparent);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.dark-theme #tutorial-overlay.tutorial-home-transparent .tutorial-text,
+.dark-theme #tutorial-overlay.tutorial-home-transparent .tutorial-button {
+  opacity: 0.8;
+}
+
+.tutorial-text,
+.tutorial-button {
+  transition: opacity 0.3s ease;
+}
+
+/* Tutorial hover area */
+#tutorial-hover-area {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  max-width: 380px;
+  min-width: 280px;
+  height: 120px;
+  z-index: 999;
+  pointer-events: auto;
+}
+
+@media (max-width: 600px) {
+  #tutorial-hover-area {
+    left: 0;
+    right: 0;
+    transform: none;
+    width: auto;
+    max-width: none;
+    min-width: auto;
+  }
+}
+
+
+
+.tutorial-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tutorial-text p {
+  margin: 0 0 8px 0;
+  color: var(--text-darker);
+  font-size: 0.85rem;
+}
+
+.tutorial-controls {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.control-item {
+  background: var(--tag-bg-color);
+  color: var(--text);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: monospace;
+  border: 1px solid var(--navbar-border-color);
+  white-space: nowrap;
+}
+
+.tutorial-button {
+  background: var(--primary-color);
+  color: var(--text);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tutorial-button:hover {
+  background: var(--highlight-color);
+  transform: translateY(-1px);
+}
+
+.tutorial-button:active {
+  transform: translateY(0);
+}
+
+/* Hide tutorial on mobile when navbar moves to bottom */
+@media (max-width: 600px) {
+  #tutorial-overlay {
+    display: none !important;
+  }
+  
+  #tutorial-hover-area {
+    display: none !important;
+  }
+}

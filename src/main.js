@@ -62,6 +62,8 @@ function showSection(index) {
     document.body.classList.remove('home-active');
   }
 
+  updateTutorialTransparency();
+
   setTimeout(() => { isSliding = false; }, 400);
 }
 
@@ -102,6 +104,7 @@ arrowRight.textContent = '>';
 
 // Initialize
 showSection(0); // This will hide the left arrow if currentSection is 0
+displayTutorial();
 
 // Tag filtering logic
 const tagButtons = Array.from(document.querySelectorAll('#project-tags .tag'));
@@ -199,6 +202,108 @@ if (projectGrid) {
     suppressScrollX: true,
     wheelPropagation: false
   });
+}
+
+function displayTutorial() {
+  // First idea was to use localStorage to show it only if needed, which is why this exists. I was too lazy to move it back to normal html
+  if (document.getElementById('tutorial-overlay')) {
+    return;
+  }
+
+  const tutorial = document.createElement('div');
+  tutorial.id = 'tutorial-overlay';
+  tutorial.innerHTML = `
+    <div class="tutorial-content">
+      <div class="tutorial-text">
+        <p>Navigate between pages using:</p>
+        <div class="tutorial-controls">
+          <span class="control-item">← → Keys</span>
+          <span class="control-item">Q / D</span>
+          <span class="control-item">Click arrows</span>
+        </div>
+      </div>
+      <button id="tutorial-got-it" class="tutorial-button">Got it!</button>
+    </div>
+  `;
+  
+  document.body.appendChild(tutorial);
+  
+  updateTutorialTransparency();
+  
+  setTimeout(() => {
+    tutorial.classList.add('tutorial-show');
+  }, 50);
+  
+  const gotItButton = document.getElementById('tutorial-got-it');
+  gotItButton.addEventListener('click', hideTutorial);
+}
+
+function hideTutorial() {
+  const tutorial = document.getElementById('tutorial-overlay');
+  const hoverArea = document.getElementById('tutorial-hover-area');
+  
+  if (tutorial) {
+    tutorial.classList.remove('tutorial-show');
+    tutorial.classList.add('tutorial-hide');
+    
+    setTimeout(() => {
+      tutorial.remove();
+    }, 400);
+  }
+  
+  if (hoverArea) {
+    hoverArea.remove();
+  }
+}
+
+let tutorialMinimized = false;
+
+function updateTutorialTransparency() {
+  const tutorial = document.getElementById('tutorial-overlay');
+  if (tutorial) {
+    if (currentSection === 0) {
+      tutorial.classList.add('tutorial-home-transparent');
+    } else {
+      tutorial.classList.remove('tutorial-home-transparent');
+
+      if (!tutorialMinimized) {
+        tutorialMinimized = true;
+        tutorial.classList.remove('tutorial-show');
+        tutorial.classList.add('tutorial-minimized');
+        setupTutorialHoverArea();
+      }
+    }
+  }
+}
+
+function setupTutorialHoverArea() {
+  if (document.getElementById('tutorial-hover-area')) return;
+  
+  const hoverArea = document.createElement('div');
+  hoverArea.id = 'tutorial-hover-area';
+  document.body.appendChild(hoverArea);
+  
+  const tutorial = document.getElementById('tutorial-overlay');
+  
+  const showTutorial = () => {
+    if (tutorialMinimized) {
+      tutorial.classList.remove('tutorial-minimized');
+      tutorial.classList.add('tutorial-show');
+    }
+  };
+  
+  const hideTutorial = () => {
+    if (tutorialMinimized) {
+      tutorial.classList.remove('tutorial-show');
+      tutorial.classList.add('tutorial-minimized');
+    }
+  };
+  
+  hoverArea.addEventListener('mouseenter', showTutorial);
+  hoverArea.addEventListener('mouseleave', hideTutorial);
+  
+  tutorial.addEventListener('mouseenter', showTutorial);
+  tutorial.addEventListener('mouseleave', hideTutorial);
 }
 
 // Theme switch button logic
