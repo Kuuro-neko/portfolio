@@ -32,7 +32,7 @@ const sectionsContainer = document.getElementById('sections');
 let currentSection = 0;
 let isSliding = false;
 
-function showSection(index) {
+export function showSection(index) {
   if (isSliding || index < 0 || index >= sections.length) return;
   isSliding = true;
   currentSection = index;
@@ -238,7 +238,7 @@ function displayTutorial() {
   gotItButton.addEventListener('click', hideTutorial);
 }
 
-function hideTutorial() {
+export function hideTutorial() {
   const tutorial = document.getElementById('tutorial-overlay');
   const hoverArea = document.getElementById('tutorial-hover-area');
   

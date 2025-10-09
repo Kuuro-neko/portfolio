@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { InfiniteGrid } from './grid.js';
+import { hideTutorial, showSection } from './main.js';
 
 export var sizes = {
   width: window.innerWidth,
@@ -106,6 +107,7 @@ export function initScene() {
   scene.background = new THREE.Color(colors.fog);
   scene.fog.color.set(colors.fog);
 
+  // Sun
   const size = 0.25;
   const circleGeometry = new THREE.CircleGeometry(size, 64);
   const circleMaterial = new THREE.MeshBasicMaterial({ color: colors.circle, side: THREE.FrontSide });
@@ -126,4 +128,148 @@ export function initScene() {
   });
 
   infiniteGrid.render();
+
+  setupBadApple();
+}
+
+async function setupBadApple() {
+  console.log('Press CTRL + ALT + B for 🍎 ᗜˬᗜ');
+  
+  let isLoading = false;
+  let isPlaying = false;
+  
+  const startBadApple = async (event) => {
+    // Check for LEFT_CTRL + ALT + B
+    if (event.ctrlKey && event.altKey && event.key.toLowerCase() === 'b') {
+      if (isLoading) {
+        console.log('Bad Apple is already loading...');
+        return;
+      }
+      
+      if (isPlaying) {
+        console.log('Bad Apple is already playing');
+        return;
+      }
+      
+      event.preventDefault();
+      isLoading = true;
+      
+      try {
+        console.log('Loading Bad Apple media files...');
+        
+        // Create video and audio elements
+        const video = document.createElement('video');
+        video.src = './bad-apple/badapple144p.mp4';
+        video.loop = false;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'auto';
+        
+        const audio = new Audio('./bad-apple/badapple.mp3');
+        audio.loop = false;
+        audio.volume = 0.5;
+        audio.preload = 'auto';
+        
+        // Wait for both to be ready to play
+        await Promise.all([
+          new Promise((resolve, reject) => {
+            video.addEventListener('canplaythrough', resolve, { once: true });
+            video.addEventListener('error', reject, { once: true });
+            video.load();
+          }),
+          new Promise((resolve, reject) => {
+            audio.addEventListener('canplaythrough', resolve, { once: true });
+            audio.addEventListener('error', reject, { once: true });
+            audio.load();
+          })
+        ]);
+        
+        console.log('Bad Apple loaded! Starting playback...');
+        isLoading = false;
+        isPlaying = true;
+
+        showSection(0);
+        
+        // Create video texture
+        const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+        videoTexture.format = THREE.RGBAFormat;
+        
+        const originalMaterial = circle.material.clone();
+        
+        await sunAnimation(0.6, 1.3);
+        
+        // Apply video texture to circle after animation
+        circle.material.map = videoTexture;
+        circle.material.needsUpdate = true;
+        
+        // Start both video and audio simultaneously
+        await Promise.all([
+          video.play(),
+          audio.play()
+        ]);
+        
+        console.log('Bad Apple started successfully!');
+        
+        video.addEventListener('timeupdate', () => { // Resync audio and video if needed
+          const timeDiff = Math.abs(video.currentTime - audio.currentTime);
+          if (timeDiff > 0.3) {
+            console.log(`Resyncing: video=${video.currentTime.toFixed(2)}s, audio=${audio.currentTime.toFixed(2)}s, diff=${timeDiff.toFixed(2)}s`);
+            video.currentTime = audio.currentTime;
+          }
+        });
+        
+        // Restoring circle at the end
+        video.addEventListener('ended', () => {
+          console.log('Bad Apple finished. Restoring original circle.');
+          circle.material = originalMaterial.clone();
+          circle.material.needsUpdate = true;
+          sunAnimation(0.0, 1.0);
+          isPlaying = false;
+          document.addEventListener('keydown', startBadApple);
+        });
+        
+        // Remove the keydown listener once started
+        document.removeEventListener('keydown', startBadApple);
+        
+        hideTutorial();
+        
+      } catch (error) {
+        console.error('Failed to load or start Bad Apple:', error);
+        isLoading = false;
+        isPlaying = false;
+      }
+    }
+  };
+  document.addEventListener('keydown', startBadApple);
+}
+
+function sunAnimation(targetY, targetScale) {
+  return new Promise((resolve) => {
+    const startY = circle.position.y;
+    const startScale = circle.scale.x;
+    const duration = 500;
+    const startTime = performance.now();
+    
+    function animate() {
+      const elapsed = performance.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const eased = 1 - Math.pow(1 - progress, 3);
+      
+      circle.position.y = startY + (targetY - startY) * eased;
+      
+      const currentScale = startScale + (targetScale - startScale) * eased;
+      circle.scale.set(currentScale, currentScale, currentScale);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        resolve();
+      }
+    }
+    
+    animate();
+  });
 }
