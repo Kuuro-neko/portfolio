@@ -148,7 +148,6 @@ export function initScene() {
   setupBadApple();
 }
 
-// Bad Apple state management (module scope for export)
 let badAppleState = {
   isLoading: false,
   isPlaying: false,
@@ -158,15 +157,12 @@ let badAppleState = {
   originalMaterial: null,
   homeParagraph: null,
   homeHeading: null,
-  startBadApple: null, // Will store the keyboard listener function
-  videoShaderUniforms: null // Will store shader uniforms for theme switching
+  startBadApple: null,
+  videoShaderUniforms: null
 };
 
 // Exportable function to stop Bad Apple
 export function stopBadApple() {
-  console.log('Stopping Bad Apple...');
-  
-  // Stop media playback
   if (badAppleState.video) {
     badAppleState.video.pause();
     badAppleState.video.currentTime = 0;
@@ -195,13 +191,11 @@ export function stopBadApple() {
     badAppleState.twLyrics.deleteAll(0);
   }
   
-  // Recreate the main typewriter to ensure clean state
   const typewriterElement = document.querySelector('#typewriter');
   if (typewriterElement) {
     typewriterElement.innerHTML = '';
   }
   
-  // Start a fresh typewriter instance
   setTimeout(() => {
     new Typewriter('#typewriter', {
       strings: originalTypewriterStrings,
@@ -214,18 +208,12 @@ export function stopBadApple() {
     });
   }, 100);
   
-  // Remove controller
   removeBadAppleController();
-  
-  // Reset state
   badAppleState.isPlaying = false;
-  
-  // Re-enable the keyboard listener
+
   if (badAppleState.startBadApple) {
     document.addEventListener('keydown', badAppleState.startBadApple);
   }
-  
-  console.log('Bad Apple stopped and restored.');
 }
 
 async function setupBadApple() {
@@ -246,10 +234,7 @@ async function setupBadApple() {
       event.preventDefault();
       badAppleState.isLoading = true;
       
-      try {
-        console.log('Loading Bad Apple media files...');
-        
-        // Create video and audio elements
+      try { // Load things
         badAppleState.video = document.createElement('video');
         badAppleState.video.src = './bad-apple/badapple144p.mp4';
         badAppleState.video.loop = false;
@@ -257,7 +242,6 @@ async function setupBadApple() {
         badAppleState.video.playsInline = true;
         badAppleState.video.preload = 'auto';
         
-        // Load saved volume from localStorage
         const savedVolume = localStorage.getItem('badAppleVolume');
         const initialVolume = savedVolume !== null ? parseFloat(savedVolume) : 0.5;
         
