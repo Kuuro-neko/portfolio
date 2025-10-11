@@ -14,14 +14,14 @@ const darkTheme = {
   fog: '#030101',
   spotlight: '#8B3030',
   ambientLight: '#ffffff',
-  circle: '#BE5E4E'
+  circle: '#693128'
 };
 
 const lightTheme = {
   fog: '#ffffff',
   spotlight: '#D3B5BAFF',
   ambientLight: '#000000',
-  circle: '#FF7F7F'
+  circle: '#CC8D8D'
 };
 
 export var colors = darkTheme;
@@ -55,8 +55,16 @@ export function changeTheme(theme) {
   scene.background = new THREE.Color(colors.fog);
   spotlight.color.set(colors.spotlight);
   spotlight2.color.set(colors.spotlight);
-  circle.material.color.set(colors.circle);
-  circle.material.needsUpdate = true;
+  
+  // Update circle color
+  if (badAppleState.isPlaying && badAppleState.videoShaderUniforms) {
+    badAppleState.videoShaderUniforms.sunColor.value.set(colors.circle);
+    badAppleState.videoShaderUniforms.isLightMode.value = currentTheme === 'light' ? 1.0 : 0.0;
+  } else {
+    circle.material.color.set(colors.circle);
+    circle.material.needsUpdate = true;
+  }
+  
   ambientLight.color.set(colors.ambientLight);
 }
 
@@ -118,7 +126,7 @@ export function initScene() {
   // Sun
   const size = 0.25;
   const circleGeometry = new THREE.CircleGeometry(size, 64);
-  const circleMaterial = new THREE.MeshBasicMaterial({ color: colors.circle, side: THREE.FrontSide });
+  const circleMaterial = new THREE.MeshBasicMaterial({ color: colors.circle, side: THREE.FrontSide, fog: false });
   circle = new THREE.Mesh(circleGeometry, circleMaterial);
   circle.position.set(0, 0.0, -1.1);
   scene.add(circle);
@@ -150,7 +158,8 @@ let badAppleState = {
   originalMaterial: null,
   homeParagraph: null,
   homeHeading: null,
-  startBadApple: null // Will store the keyboard listener function
+  startBadApple: null, // Will store the keyboard listener function
+  videoShaderUniforms: null // Will store shader uniforms for theme switching
 };
 
 // Exportable function to stop Bad Apple
@@ -170,9 +179,11 @@ export function stopBadApple() {
   // Restore circle
   if (badAppleState.originalMaterial) {
     circle.material = badAppleState.originalMaterial.clone();
+    circle.material.color.set(colors.circle);
     circle.material.needsUpdate = true;
   }
   sunAnimation(0.0, 1.0);
+  badAppleState.videoShaderUniforms = null;
   
   // Restore home section text opacity
   if (badAppleState.homeParagraph) badAppleState.homeParagraph.style.opacity = '1';
@@ -284,7 +295,43 @@ async function setupBadApple() {
         
         await sunAnimation(0.6, 1.3);
         
-        circle.material.map = videoTexture;
+        // Create custom shader material that can switch between themes
+        const sunColor = new THREE.Color(colors.circle);
+        circle.material = new THREE.ShaderMaterial({
+          uniforms: {
+            videoTexture: { value: videoTexture },
+            sunColor: { value: sunColor },
+            isLightMode: { value: currentTheme === 'light' ? 1.0 : 0.0 }
+          },
+          vertexShader: `
+            varying vec2 vUv;
+            void main() {
+              vUv = uv;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `,
+          fragmentShader: `
+            uniform sampler2D videoTexture;
+            uniform vec3 sunColor;
+            uniform float isLightMode;
+            varying vec2 vUv;
+            void main() {
+              vec4 texColor = texture2D(videoTexture, vUv);
+              float brightness = texColor.r; // Grayscale video
+              vec3 color;
+              if (isLightMode > 0.5) {
+                color = mix(sunColor, vec3(1.0), brightness);
+              } else {
+                color = mix(vec3(0.0), sunColor, brightness);
+              }
+              gl_FragColor = vec4(color, 1.0);
+            }
+          `,
+          side: THREE.FrontSide,
+          fog: false
+        });
+        
+        badAppleState.videoShaderUniforms = circle.material.uniforms;
         circle.material.needsUpdate = true;
         
         await Promise.all([
