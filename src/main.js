@@ -4,13 +4,15 @@ import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import { changeTheme } from './scene.js';
 
+const originalTypewriterStrings = [
+  'I am a computer graphics student',
+  'I am passionate about real-time 3D',
+  'I am a game developer',
+  'I am always learning something new'
+];
+
 const tw = new Typewriter('#typewriter', {
-  strings: [
-    'I am a computer graphics student',
-    'I am passionate about real-time 3D',
-    'I am a game developer',
-    'I am always learning something new'
-  ],
+  strings: originalTypewriterStrings,
   autoStart: true,
   loop: true,
   delay: 75,
@@ -18,6 +20,10 @@ const tw = new Typewriter('#typewriter', {
   cursor: '|',
   pauseFor: 2000
 });
+
+let twLyrics = null;
+
+export { tw, twLyrics, originalTypewriterStrings };
 
 const sections = Array.from(document.querySelectorAll('section'));
 const navLinks = [

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { InfiniteGrid } from './grid.js';
-import { hideTutorial, showSection } from './main.js';
+import { hideTutorial, showSection, tw, originalTypewriterStrings } from './main.js';
+import Typewriter from 'typewriter-effect/dist/core';
 
 export var sizes = {
   width: window.innerWidth,
@@ -137,6 +138,16 @@ async function setupBadApple() {
   
   let isLoading = false;
   let isPlaying = false;
+  let lyrics = [];
+  
+  // Load lyrics data
+  try {
+    const response = await fetch('./bad-apple/badapple.json');
+    lyrics = await response.json();
+    console.log(`Loaded ${lyrics.length} lyric entries`);
+  } catch (error) {
+    console.error('Failed to load lyrics:', error);
+  }
   
   const startBadApple = async (event) => {
     // Check for LEFT_CTRL + ALT + B
@@ -212,11 +223,69 @@ async function setupBadApple() {
         
         console.log('Bad Apple started successfully!');
         
-        video.addEventListener('timeupdate', () => { // Resync audio and video if needed
+        // Fade out home section text
+        const homeSection = document.querySelector('#home');
+        const homeParagraph = homeSection.querySelector('p:first-of-type');
+        const homeHeading = homeSection.querySelector('h1');
+        if (homeParagraph) homeParagraph.style.transition = 'opacity 0.5s';
+        if (homeHeading) homeHeading.style.transition = 'opacity 0.5s';
+        if (homeParagraph) homeParagraph.style.opacity = '0.2';
+        if (homeHeading) homeHeading.style.opacity = '0.2';
+        
+        // Lyrics setup
+        let currentLyricIndex = 0;
+        const totalFrames = 6570;
+        const fps = 30;
+        const lyricDelay = -1.0; // Fi xconstant delay
+        
+        // Stop the main typewriter and create lyrics typewriter
+        tw.stop();
+        
+        const twLyrics = new Typewriter('#typewriter', {
+          strings: [],
+          autoStart: false,
+          loop: false,
+          delay: 0,
+          deleteSpeed: 1,
+          cursor: '',
+          pauseFor: 0
+        });
+        
+        video.addEventListener('timeupdate', () => {
+          // Apply delay to sync lyrics properly
+          const adjustedTime = video.currentTime + lyricDelay;
+          const currentFrame = Math.floor(adjustedTime * fps);
+          
+          // Update lyrics based on current frame
+          if (currentLyricIndex < lyrics.length - 1 && 
+              currentFrame >= lyrics[currentLyricIndex + 1].frame) {
+            currentLyricIndex++;
+            // Skip ahead if multiple lyrics should have been displayed
+            while (currentLyricIndex < lyrics.length - 1 && 
+                   currentFrame >= lyrics[currentLyricIndex + 1].frame) {
+              currentLyricIndex++;
+            }
+            // Update lyrics typewriter with new lyric
+            twLyrics.deleteAll(1).typeString(lyrics[currentLyricIndex].lyric.replace(/\n/g, '<br>')).start();
+          }
+          
+          // Resync video to audio if drift detected (video follows audio)
           const timeDiff = Math.abs(video.currentTime - audio.currentTime);
           if (timeDiff > 0.3) {
             console.log(`Resyncing: video=${video.currentTime.toFixed(2)}s, audio=${audio.currentTime.toFixed(2)}s, diff=${timeDiff.toFixed(2)}s`);
             video.currentTime = audio.currentTime;
+
+            const syncedAdjustedTime = audio.currentTime + lyricDelay;
+            const syncedFrame = Math.floor(syncedAdjustedTime * fps);
+            currentLyricIndex = 0;
+            for (let i = 0; i < lyrics.length - 1; i++) {
+              if (syncedFrame >= lyrics[i + 1].frame) {
+                currentLyricIndex = i + 1;
+              } else {
+                break;
+              }
+            }
+            twLyrics.deleteAll(1).typeString(lyrics[currentLyricIndex].lyric.replace(/\n/g, '<br>')).start();
           }
         });
         
@@ -226,6 +295,34 @@ async function setupBadApple() {
           circle.material = originalMaterial.clone();
           circle.material.needsUpdate = true;
           sunAnimation(0.0, 1.0);
+          
+          // Restore home section text opacity
+          if (homeParagraph) homeParagraph.style.opacity = '1';
+          if (homeHeading) homeHeading.style.opacity = '1';
+          
+          // Stop lyrics typewriter and restart main typewriter
+          twLyrics.stop();
+          twLyrics.deleteAll(0);
+          
+          // Recreate the main typewriter to ensure clean state
+          const typewriterElement = document.querySelector('#typewriter');
+          if (typewriterElement) {
+            typewriterElement.innerHTML = '';
+          }
+          
+          // Start a fresh typewriter instance
+          setTimeout(() => {
+            const newTw = new Typewriter('#typewriter', {
+              strings: originalTypewriterStrings,
+              autoStart: true,
+              loop: true,
+              delay: 75,
+              deleteSpeed: 50,
+              cursor: '|',
+              pauseFor: 2000
+            });
+          }, 100);
+          
           isPlaying = false;
           document.addEventListener('keydown', startBadApple);
         });
