@@ -2,7 +2,7 @@ import './style.css'
 import PerfectScrollbar from 'perfect-scrollbar';
 import Typewriter from 'typewriter-effect/dist/core';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
-import { changeTheme } from './scene.js';
+import { initScene, changeTheme, setCurrentSection } from './scene.js';
 
 const originalTypewriterStrings = [
   'I am a computer graphics student',
@@ -42,6 +42,9 @@ export function showSection(index) {
   if (isSliding || index < 0 || index >= sections.length) return;
   isSliding = true;
   currentSection = index;
+  
+  // Update controller opacity
+  setCurrentSection(index);
 
   // Move the sections container
   sectionsContainer.style.transform = `translateX(-${index * 100}vw)`;
@@ -218,6 +221,7 @@ function displayTutorial() {
 
   const tutorial = document.createElement('div');
   tutorial.id = 'tutorial-overlay';
+  tutorial.className = 'bottom-overlay';
   tutorial.innerHTML = `
     <div class="tutorial-content">
       <div class="tutorial-text">
@@ -237,7 +241,7 @@ function displayTutorial() {
   updateTutorialTransparency();
   
   setTimeout(() => {
-    tutorial.classList.add('tutorial-show');
+    tutorial.classList.add('overlay-show');
   }, 50);
   
   const gotItButton = document.getElementById('tutorial-got-it');
@@ -249,8 +253,8 @@ export function hideTutorial() {
   const hoverArea = document.getElementById('tutorial-hover-area');
   
   if (tutorial) {
-    tutorial.classList.remove('tutorial-show');
-    tutorial.classList.add('tutorial-hide');
+    tutorial.classList.remove('overlay-show');
+    tutorial.classList.add('overlay-hide');
     
     setTimeout(() => {
       tutorial.remove();
@@ -268,13 +272,13 @@ function updateTutorialTransparency() {
   const tutorial = document.getElementById('tutorial-overlay');
   if (tutorial) {
     if (currentSection === 0) {
-      tutorial.classList.add('tutorial-home-transparent');
+      tutorial.classList.add('overlay-home-transparent');
     } else {
-      tutorial.classList.remove('tutorial-home-transparent');
+      tutorial.classList.remove('overlay-home-transparent');
 
       if (!tutorialMinimized) {
         tutorialMinimized = true;
-        tutorial.classList.remove('tutorial-show');
+        tutorial.classList.remove('overlay-show');
         tutorial.classList.add('tutorial-minimized');
         setupTutorialHoverArea();
       }
@@ -294,13 +298,13 @@ function setupTutorialHoverArea() {
   const showTutorial = () => {
     if (tutorialMinimized) {
       tutorial.classList.remove('tutorial-minimized');
-      tutorial.classList.add('tutorial-show');
+      tutorial.classList.add('overlay-show');
     }
   };
   
   const hideTutorial = () => {
     if (tutorialMinimized) {
-      tutorial.classList.remove('tutorial-show');
+      tutorial.classList.remove('overlay-show');
       tutorial.classList.add('tutorial-minimized');
     }
   };
